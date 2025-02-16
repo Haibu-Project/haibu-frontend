@@ -70,7 +70,7 @@ const Sidebar = () => {
       {/* Logo y Nombre */}
       <div className="flex justify-center items-center gap-x-2 mb-8">
         <Image
-          src={isOpen ? "/haibu-logos/Haibu-Over-Purple.svg" : "/haibu-logos/haibu-imagotipo.svg"}
+          src={isOpen ? "/haibu-logos/haibu_logo_final 1.svg" : "/haibu-logos/haibu-imagotipo.svg"}
           alt="Logo"
           width={150}
           height={150}
