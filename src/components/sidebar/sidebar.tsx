@@ -53,14 +53,14 @@ const Sidebar = () => {
 
   return (
     <aside
-      className={`bg-main border border-gray-700 h-full p-4 flex flex-col rounded-xl transition-all duration-300 
+      className={`bg-main border border-gray-700 p-4 flex flex-col rounded-xl transition-all duration-300 
       ${isOpen ? "w-72" : "w-20"}`}
     >
       {/* Botón para abrir/cerrar el Sidebar */}
       {/* Toggle collapse */}
       <button
         onClick={() => setIsOpen(!isOpen)}
-        className={`absolute ${isOpen ? "left-[265px]" : "left-14"}  bg-white text-black p-2 rounded-full shadow-md transition-all`}
+        className={`absolute ${isOpen ? "left-[280px]" : "left-[80px]"}  bg-white text-black p-2 rounded-full shadow-md transition-all`}
       >
         <ChevronsLeft
           className={`transition-transform ${!isOpen && "rotate-180"}`}
@@ -70,7 +70,7 @@ const Sidebar = () => {
       {/* Logo y Nombre */}
       <div className="flex justify-center items-center gap-x-2 mb-8">
         <Image
-          src="/haibu-logos/Haibu-Over-Purple.svg"
+          src={isOpen ? "/haibu-logos/Haibu-Over-Purple.svg" : "/haibu-logos/haibu-imagotipo.svg"}
           alt="Logo"
           width={150}
           height={150}
