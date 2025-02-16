@@ -12,36 +12,17 @@ interface ActivityCardProps {
 }
 
 
-//   const ActivityCard = ({ title, description, link, borderColor, textColor }: ActivityCardProps) => {
-//     const router = useRouter();
-  
-//     return (
-//       <div className={`border-l-4 ${borderColor} bg-white p-4 rounded-lg shadow-md flex flex-col justify-between w-full`}>
-//         <div>
-//           <p className="text-lg font-semibold">{title}</p>
-//           <p className="text-sm mt-1 text-gray-600">{description}</p>
-//         </div>
-//         <button
-//           className={`font-extrabold ${textColor} text-2xl self-end`}
-//           onClick={() => router.push(link)}
-//         >
-//           <ChevronRight />
-//         </button>
-//       </div>
-//     );
-//   };
-
-const ActivityCard = ({ title, description, link, borderColor, textColor }: ActivityCardProps) => {
+  const ActivityCard = ({ title, description, link, borderColor, textColor }: ActivityCardProps) => {
     const router = useRouter();
   
     return (
-      <div className={`border ${borderColor} p-4 rounded-lg shadow-md flex flex-col justify-between`}>
+      <div className={`border-l-4 ${borderColor} bg-white p-4 rounded-lg shadow-md flex flex-col justify-between w-full`}>
         <div>
           <p className="text-lg font-semibold">{title}</p>
-          <p className="text-sm mt-2">{description}</p>
+          <p className="text-sm mt-1 text-gray-600">{description}</p>
         </div>
         <button
-          className={`font-extrabold ${textColor} text-3xl self-end`}
+          className={`font-extrabold ${textColor} text-2xl self-end`}
           onClick={() => router.push(link)}
         >
           <ChevronRight />
@@ -50,17 +31,36 @@ const ActivityCard = ({ title, description, link, borderColor, textColor }: Acti
     );
   };
 
+// const ActivityCard = ({ title, description, link, borderColor, textColor }: ActivityCardProps) => {
+//     const router = useRouter();
+  
+//     return (
+//       <div className={`border ${borderColor} p-4 rounded-lg shadow-md flex flex-col justify-between`}>
+//         <div>
+//           <p className="text-lg font-semibold">{title}</p>
+//           <p className="text-sm mt-2">{description}</p>
+//         </div>
+//         <button
+//           className={`font-extrabold ${textColor} text-3xl self-end`}
+//           onClick={() => router.push(link)}
+//         >
+//           <ChevronRight />
+//         </button>
+//       </div>
+//     );
+//   };
+
   
 
 const ActivitySection = () => {
   const router = useRouter();
 
   return (
-    <div className="w-full max-w-lg mx-auto bg-gray-100 p-6 rounded-xl shadow-md flex flex-col gap-6">
+    <div className="w-fit  bg-gray-100 p-6 rounded-xl shadow-md flex flex-col gap-6">
       {/* Sección Recursos */}
       <div className="flex flex-col gap-4">
         <p className="text-xl font-bold text-gray-800">Recursos</p>
-        <div className="rounded-lg bg-white shadow-md flex flex-col items-start p-5 w-full">
+        <div className="rounded-lg bg-white shadow-md flex flex-col items-start p-5">
           <p className="font-bold text-lg text-gray-900">Hecha un vistazo a Alza</p>
           <p className="text-gray-600 text-sm mt-2">
             Alza es una biblioteca diseñada para aprender sobre habilidades blandas y cómo aplicarlas.
