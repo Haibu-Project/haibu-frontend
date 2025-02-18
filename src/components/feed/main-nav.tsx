@@ -1,6 +1,5 @@
 import Link from "next/link"
 import { Home, MessageSquare, Bell, Settings, Users, Bookmark, User, Zap } from "lucide-react"
-import Image from "next/image"
 
 const navItems = [
   { title: "Home", icon: Home, href: "/", active: true },
@@ -16,8 +15,11 @@ export function MainNav() {
   return (
     <div className="flex flex-col h-full bg-primary text-white p-4">
       <div className="mb-8">
-        <Link href="/" className="flex items-center gap-2 px-10">
-        <Image src='/assets/haibu_white.svg' alt='Haibu Logo' width={150} height={100} />
+        <Link href="/" className="flex items-center gap-2 px-4">
+          <div className="rounded-xl bg-white p-2 text-primary">
+            <Zap className="h-6 w-6" />
+          </div>
+          <span className="text-xl font-bold">Nexus</span>
         </Link>
       </div>
       <nav className="space-y-2">

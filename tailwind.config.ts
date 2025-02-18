@@ -1,69 +1,67 @@
-import type { Config } from "tailwindcss";
+const colors = require("tailwindcss/colors")
 
-export default {
-    darkMode: ["class"],
-    content: [
-    "./src/pages/**/*.{js,ts,jsx,tsx,mdx}",
-    "./src/components/**/*.{js,ts,jsx,tsx,mdx}",
-    "./src/app/**/*.{js,ts,jsx,tsx,mdx}",
+/** @type {import('tailwindcss').Config} */
+module.exports = {
+  darkMode: ["class"],
+  content: [
+    "./pages/**/*.{ts,tsx}",
+    "./components/**/*.{ts,tsx}",
+    "./app/**/*.{ts,tsx}",
+    "./src/**/*.{ts,tsx}",
+    "*.{js,ts,jsx,tsx,mdx}",
   ],
   theme: {
-  	extend: {
-  		colors: {
-  			haibu_purple: '#554DEA',
-			main: "#221F5C",
-  			background: 'var(--background)',
-  			foreground: 'var(--foreground)'
-  		},
-  		borderRadius: {
-  			lg: 'var(--radius)',
-  			md: 'calc(var(--radius) - 2px)',
-  			sm: 'calc(var(--radius) - 4px)'
-  		},
-  		keyframes: {
-  			marquee: {
-  				from: {
-  					transform: 'translateX(0)'
-  				},
-  				to: {
-  					transform: 'translateX(calc(-100% - var(--gap)))'
-  				}
-  			},
-  			'marquee-vertical': {
-  				from: {
-  					transform: 'translateY(0)'
-  				},
-  				to: {
-  					transform: 'translateY(calc(-100% - var(--gap)))'
-  				}
-  			},
-  			'shimmer-slide': {
-  				to: {
-  					transform: 'translate(calc(100cqw - 100%), 0)'
-  				}
-  			},
-  			'spin-around': {
-  				'0%': {
-  					transform: 'translateZ(0) rotate(0)'
-  				},
-  				'15%, 35%': {
-  					transform: 'translateZ(0) rotate(90deg)'
-  				},
-  				'65%, 85%': {
-  					transform: 'translateZ(0) rotate(270deg)'
-  				},
-  				'100%': {
-  					transform: 'translateZ(0) rotate(360deg)'
-  				}
-  			}
-  		},
-  		animation: {
-  			marquee: 'marquee var(--duration) infinite linear',
-  			'marquee-vertical': 'marquee-vertical var(--duration) linear infinite',
-  			'shimmer-slide': 'shimmer-slide var(--speed) ease-in-out infinite alternate',
-  			'spin-around': 'spin-around calc(var(--speed) * 2) infinite linear'
-  		}
-  	}
+    extend: {
+      colors: {
+        border: "hsl(var(--border))",
+        input: "hsl(var(--input))",
+        ring: "hsl(var(--ring))",
+        background: "hsl(var(--background))",
+        foreground: "hsl(var(--foreground))",
+        primary: {
+          DEFAULT: "#232064",
+          light: "#3A3696",
+          dark: "#1A1849",
+        },
+        secondary: {
+          DEFAULT: "#4841C5",
+          light: "#6A64D9",
+          dark: "#3632A0",
+        },
+        tertiary: {
+          DEFAULT: "#8B7FFF",
+          light: "#A59BFF",
+          dark: "#7165E3",
+        },
+        accent: {
+          DEFAULT: "#B19CD9",
+          light: "#C6B5E8",
+          dark: "#9B84C9",
+        },
+        destructive: {
+          DEFAULT: "hsl(var(--destructive))",
+          foreground: "hsl(var(--destructive-foreground))",
+        },
+        muted: {
+          DEFAULT: "hsl(var(--muted))",
+          foreground: "hsl(var(--muted-foreground))",
+        },
+        popover: {
+          DEFAULT: "hsl(var(--popover))",
+          foreground: "hsl(var(--popover-foreground))",
+        },
+        card: {
+          DEFAULT: "hsl(var(--card))",
+          foreground: "hsl(var(--card-foreground))",
+        },
+      },
+      borderRadius: {
+        lg: "var(--radius)",
+        md: "calc(var(--radius) - 2px)",
+        sm: "calc(var(--radius) - 4px)",
+      },
+    },
   },
   plugins: [require("tailwindcss-animate")],
-} satisfies Config;
+}
+
