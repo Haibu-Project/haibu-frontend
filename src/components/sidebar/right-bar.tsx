@@ -39,9 +39,8 @@ export function RightSidebar() {
   ]
 
   return (
-    <div className="space-y-6 max-w-[450px]">
-      <div className="sticky top-0 z-10 bg-white dark:bg-primary-dark pb-4 rounded-xl shadow-md">
-        <div className="relative">
+    <div className="space-y-6">
+        <div className="relative flex items-center justify-center">
           <Search className="absolute left-4 top-3 h-5 w-5 text-gray-400" />
           <input
             type="text"
@@ -49,9 +48,7 @@ export function RightSidebar() {
             className="w-full rounded-full bg-gray-100 py-2 pl-12 pr-4 text-sm text-gray-800 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-tertiary dark:bg-primary dark:text-white dark:placeholder-gray-500 transition-all"
           />
         </div>
-      </div>
-
-      <div className="bg-accent/10 flex flex-col justify-center w-fit dark:bg-primary rounded-xl p-4 shadow-lg">
+      <div className="bg-accent/10 flex flex-col justify-center w-f dark:bg-primary rounded-xl p-4 shadow-lg">
         <h2 className="text-xl font-bold mb-4 text-primary-dark dark:text-white flex items-center">
           <Users className="mr-2 h-5 w-5 text-tertiary" /> Who to follow
         </h2>
