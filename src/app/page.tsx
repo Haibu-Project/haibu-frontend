@@ -1,9 +1,10 @@
-import { MainNav } from "@/components/sidebar/sidebar"
-import { PostComposer } from "@/components/feed/post-composer"
-import FeedPost from "@/components/feed/feed-post"
-import { RightSidebar } from "@/components/sidebar/right-bar"
+import { MainNav } from "@/components/ui/sidebar/sidebar"
+import { PostComposer } from "@/components/home/feed/post-composer"
+import FeedPost from "@/components/home/feed/feed-post"
+import { RightSidebar } from "@/components/home/feed/right-sidebar"
 
 export default function Page() {
+
   const post = {
     user: {
       name: "John Doe",
