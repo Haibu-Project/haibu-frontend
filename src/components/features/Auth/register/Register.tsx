@@ -5,12 +5,20 @@ import { BorderBeam } from "@/components/magicui/border-beam";
 import { SimpleButton } from "@/components/magicui/simple-button";
 import { ShinyButton } from "@/components/magicui/shiny-button";
 import useFormSetter from "@/hooks/useFormSetter";
+import { useUserStore } from "@/store/user-store";
 
 export default function RegisterComponent() {
-  const [formState, createFormSetter] = useFormSetter({ email: "", username: "" });
+  const [formState, createFormSetter] = useFormSetter({ 
+    email: "", 
+    username: "", 
+    name: "", 
+    lastname: "" 
+  });
   const [isLoading, setIsLoading] = useState(false);
   const [message, setMessage] = useState("");
   const router = useRouter();
+
+  const { setUser } = useUserStore(); 
 
   const handleSendCode = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -19,10 +27,21 @@ export default function RegisterComponent() {
       const res = await fetch("/api/send-code", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email: formState.email }),
+        body: JSON.stringify({ 
+          email: formState.email, 
+          username: formState.username,
+          name: formState.name,
+          lastname: formState.lastname
+        }),
       });
       const data = await res.json();
       if (data.success) {
+        setUser({
+          name: formState.name,
+          lastname: formState.lastname,
+          username: formState.username,
+          email: formState.email,
+        });
         localStorage.setItem("verificationCode", data.code);
         router.push(`/auth/verify-code?email=${formState.email}&username=${formState.username}`);
       } else {
@@ -45,6 +64,22 @@ export default function RegisterComponent() {
           className="bg-white rounded-lg shadow-lg p-8 max-w-md w-full mt-4"
         >
           <h1 className="text-3xl font-bold text-center mb-6">Register</h1>
+          <input
+            type="text"
+            placeholder="Enter your name"
+            value={formState.name}
+            onChange={(e) => createFormSetter("name")(e.target.value)}
+            className="w-full p-3 border border-gray-300 rounded mb-4 focus:outline-none focus:ring-2 focus:ring-[#ffc530]"
+            required
+          />
+          <input
+            type="text"
+            placeholder="Enter your lastname"
+            value={formState.lastname}
+            onChange={(e) => createFormSetter("lastname")(e.target.value)}
+            className="w-full p-3 border border-gray-300 rounded mb-4 focus:outline-none focus:ring-2 focus:ring-[#ffc530]"
+            required
+          />
           <input
             type="text"
             placeholder="Enter your username"
