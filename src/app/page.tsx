@@ -1,9 +1,21 @@
+"use client"
+
 import { MainNav } from "@/components/ui/sidebar/sidebar"
 import { PostComposer } from "@/components/home/feed/post-composer"
 import FeedPost from "@/components/home/feed/feed-post"
 import { RightSidebar } from "@/components/home/feed/right-sidebar"
+import { useRouter } from "next/navigation";
+import { useAddress } from "@chopinframework/react";
 
 export default function Page() {
+
+  const { address, isLoading } = useAddress();
+
+  const router = useRouter();
+
+  if (!address && !isLoading) {
+    router.push("/auth/login");
+  }
 
   const post = {
     user: {
