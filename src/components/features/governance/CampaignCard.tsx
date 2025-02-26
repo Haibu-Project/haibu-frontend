@@ -16,9 +16,10 @@ type TaskCardProps = {
 }
 
 const CampaignCard: React.FC<TaskCardProps> = ({ title, description, priority, progress = 65 }) => {
-  const [options, setOptions] = useState(false)
+  const [vote, setVote] = useState<string | null>(null);
+  const [options, setOptions] = useState(false);
 
-  const normalizedProgress = Math.min(100, Math.max(1, progress))
+  const normalizedProgress = Math.min(100, Math.max(1, progress));
 
   return (
     <div className="bg-white rounded-lg p-4 shadow w-full max-w-xs">
@@ -41,10 +42,27 @@ const CampaignCard: React.FC<TaskCardProps> = ({ title, description, priority, p
           <ProgressBar value={normalizedProgress} className="h-1 bg-gray-100 [&>div]:bg-[#4F46E5]" />
         </div>
 
-        <div className="flex justify-between text-sm">
+        <div className="flex justify-between text-[16px]">
           <span className="text-[#56D06D]">{normalizedProgress}% Yes</span>
           <span className="text-[#EF4545]">{100 - normalizedProgress}% No</span>
         </div>
+
+        <div className="mt-4 flex gap-2">
+          <button 
+            className={`px-3 py-1 rounded-md text-white text-sm ${vote === 'approve' ? 'bg-green-600' : 'bg-green-500 hover:bg-green-600'}`} 
+            onClick={() => setVote('approve')}
+          >
+            Approve
+          </button>
+          <button 
+            className={`px-3 py-1 rounded-md text-white text-sm ${vote === 'reject' ? 'bg-red-600' : 'bg-red-500 hover:bg-red-600'}`} 
+            onClick={() => setVote('reject')}
+          >
+            Reject
+          </button>
+        </div>
+
+        {vote && <p className="mt-2 text-sm text-gray-700">You voted: <b>{vote === 'approve' ? 'Approve' : 'Reject'}</b></p>}
       </div>
     </div>
   )

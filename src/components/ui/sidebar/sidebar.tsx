@@ -20,7 +20,7 @@ export function MainNav() {
   return (
     <div className="flex flex-col w-full h-full bg-primary text-white p-4 pl-[5rem]">
       <div className="mb-8">
-        <Link href="/" className="flex items-center gap-2 px-10">
+        <Link href="/" className="flex items-center gap-2">
           <Image src="/assets/haibu_white.svg" alt="Haibu Logo" width={150} height={100} />
         </Link>
       </div>
