@@ -2,6 +2,8 @@ import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import { MainNav } from "@/components/ui/sidebar/sidebar";
 import "./globals.css";
+import 'animate.css'
+
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -34,7 +36,7 @@ export default function RootLayout({
           </aside>
 
           <main className="flex-1 flex flex-col h-screen overflow-hidden">
-            <div className="flex-1 overflow-y-auto">{children}</div>
+              <div className="flex-1 overflow-y-auto">{children}</div>
           </main>
         </div>
       </body>

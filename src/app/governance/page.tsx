@@ -40,8 +40,8 @@ const cards: Card[] = [
 
 export default function GovernancePage() {
     return (
-        <>
-            <div className="flex flex-col ml-[4rem] w-full">
+        <div className="animate__animated animate__fadeInDown">
+            <div className="flex flex-col ml-[4rem] w-full ">
                 <GovernanceHeader />
 
                 <div className='flex mt-[4rem] flex-col gap-1'>
@@ -66,6 +66,6 @@ export default function GovernancePage() {
                     ))}
                 </div>
             </div>
-        </>
+        </div>
     )
 }
