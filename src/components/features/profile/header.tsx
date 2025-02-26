@@ -12,9 +12,9 @@ export default function ProfileHeader() {
                     Welcome to your profile. Here you can view and manage your posts, interactions, and followers.
                 </p>
             </div>
-            <div className="w-1/3 flex justify-end mr-[4rem]">
+            <div className="w-1/3 mt-[2rem] flex justify-center items-center">
                 <Image
-                    src="/assets/HaiToken.svg"
+                    src="/icons/profile2.svg"
                     width={160}
                     height={160}
                     alt="HaiToken SVG"

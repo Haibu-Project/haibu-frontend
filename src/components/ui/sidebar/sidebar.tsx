@@ -31,9 +31,8 @@ export function MainNav() {
             <Link
               key={item.title}
               href={item.href}
-              className={`flex items-center gap-4 rounded-lg px-4 py-3 text-sm font-medium transition-colors ${
-                isActive ? "bg-secondary text-white" : "text-white/70 hover:bg-primary-light hover:text-white"
-              }`}
+              className={`flex items-center gap-4 rounded-lg px-4 py-3 text-sm font-medium transition-colors ${isActive ? "bg-secondary text-white" : "text-white/70 hover:bg-primary-light hover:text-white"
+                }`}
             >
               <item.icon className="h-5 w-5" />
               {item.title}
