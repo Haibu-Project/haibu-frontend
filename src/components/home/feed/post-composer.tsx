@@ -21,7 +21,7 @@ export function PostComposer() {
         </div>
         <div className="flex-grow">
           <textarea
-            placeholder="What's on your mind?"
+            placeholder="Say Hai to the World"
             value={content}
             onChange={(e) => setContent(e.target.value)}
             className="w-full min-h-[150px] bg-transparent border-2 border-gray-200 dark:border-gray-700 text-lg p-4 rounded-lg resize-none placeholder:text-gray-400 dark:placeholder:text-gray-500 dark:text-white transition-all"

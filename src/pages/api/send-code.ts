@@ -12,7 +12,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     const cleanedEmail = email.trim().toLowerCase();
     const code = Math.floor(100000 + Math.random() * 900000).toString();
 
-    await setVerificationCode(cleanedEmail, code, 300); // ✅ Guardamos en Redis (expira en 5 min)
+    await setVerificationCode(cleanedEmail, code, 300); 
     console.log(`Código guardado en Redis para ${cleanedEmail}: ${code}`);
 
     const transporter = nodemailer.createTransport({

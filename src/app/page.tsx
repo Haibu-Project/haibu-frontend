@@ -39,9 +39,6 @@ export default function Page() {
 
   return (
     <div className="flex min-h-screen w-full bg-accent/5 dark:bg-primary-dark">
-      <aside className="hidden lg:block lg:w-72 xl:w-80 h-screen sticky top-0">
-        <MainNav />
-      </aside>
 
       <main className="flex-1 border-x border-accent/20 dark:border-accent/10 px-4 sm:px-8">
         <div className="max-w-2xl mx-auto py-8">

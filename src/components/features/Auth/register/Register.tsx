@@ -12,7 +12,7 @@ export default function RegisterComponent() {
     email: "", 
     username: "", 
     name: "", 
-    lastname: "" 
+    surnames: "" 
   });
   const [isLoading, setIsLoading] = useState(false);
   const [message, setMessage] = useState("");
@@ -31,14 +31,14 @@ export default function RegisterComponent() {
           email: formState.email, 
           username: formState.username,
           name: formState.name,
-          lastname: formState.lastname
+          surnames: formState.surnames
         }),
       });
       const data = await res.json();
       if (data.success) {
         setUser({
           name: formState.name,
-          lastname: formState.lastname,
+          surnames: formState.surnames,
           username: formState.username,
           email: formState.email,
         });
@@ -74,9 +74,9 @@ export default function RegisterComponent() {
           />
           <input
             type="text"
-            placeholder="Enter your lastname"
-            value={formState.lastname}
-            onChange={(e) => createFormSetter("lastname")(e.target.value)}
+            placeholder="Enter your surnames"
+            value={formState.surnames}
+            onChange={(e) => createFormSetter("surnames")(e.target.value)}
             className="w-full p-3 border border-gray-300 rounded mb-4 focus:outline-none focus:ring-2 focus:ring-[#ffc530]"
             required
           />
