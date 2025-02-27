@@ -7,34 +7,26 @@ import { SimpleButton } from "@/components/magicui/simple-button";
 import { ShinyButton } from "@/components/magicui/shiny-button";
 import useFormSetter from "@/hooks/useFormSetter";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
+import { useUserStore } from "@/store/user-store";
+import { useAddress } from "@chopinframework/react";
 
 export default function Login() {
   const [formState, createFormSetter] = useFormSetter({ email: "" });
   const [isLoading, setIsLoading] = useState(false);
   const [message, setMessage] = useState("");
-  const router = useRouter();
+  const { setUser } = useUserStore();
+  const { login } = useAddress();
+
 
   const handleSendCode = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsLoading(true);
     try {
-      const res = await fetch("/api/send-code", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email: formState.email }),
-      });
-
-      if (res.ok) {
-        setMessage("Code sent! Check your email.");
-        router.push(`/auth/login/verify-code?email=${formState.email}`);
-      } else {
-        setMessage("Error sending the code.");
-      }
+      setUser({ email: formState.email });
+      login();
     } catch (error) {
-      console.error("Error in send-login-code:", error);
-      setMessage("Request error.");
-    } finally {
+      console.error("Redirect error:", error);
+      setMessage("Error redirecting to authentication.");
       setIsLoading(false);
     }
   };
@@ -61,9 +53,9 @@ export default function Login() {
           </div>
           {message && <p className="mt-4 text-center text-red-500">{message}</p>}
           <div className="mt-2 border-t pt-4 text-center">
-            <Link href="/auth/register" >
+            <Link href="/auth/register">
               <ShinyButton>
-                  Register
+                Register
               </ShinyButton>
             </Link>
           </div>
