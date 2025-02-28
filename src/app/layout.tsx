@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import { MainNav } from "@/components/ui/sidebar/sidebar";
+import { Providers } from "./providers";
 import "./globals.css";
 import "animate.css";
 
@@ -27,7 +28,7 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
-        {/* <AuthGuard> */}
+        <Providers>
           <div className="flex min-h-screen w-full">
             <aside className="hidden lg:block lg:w-72 xl:w-80 h-screen sticky top-0">
               <MainNav />
@@ -37,7 +38,7 @@ export default function RootLayout({
               <div className="flex-1 overflow-y-auto">{children}</div>
             </main>
           </div>
-        {/* </AuthGuard> */}
+        </Providers>
       </body>
     </html>
   );
