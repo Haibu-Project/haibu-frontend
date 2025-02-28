@@ -18,4 +18,20 @@ export async function createPost(data: { content: string; userId?: string }) {
       throw error;
     }
   }
+
+  export async function fetchPosts() {
+    const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/posts`)
+    if (!response.ok) {
+      throw new Error("Error fetching posts")
+    }
+    console.log(response)
+    return response.json()
+  }
+  export async function fetchPost(id: string) {
+    const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/posts/${id}`)
+    if (!response.ok) {
+      throw new Error("Error fetching post")
+    }
+    return response.json()
+  }  
   

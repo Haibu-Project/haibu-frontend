@@ -3,7 +3,7 @@
 import { useAuthCheck } from "@/hooks/useAuthChek";
 import { MainNav } from "@/components/ui/sidebar/sidebar";
 import { PostComposer } from "@/components/home/feed/post-composer";
-import FeedPost from "@/components/home/feed/feed-post";
+import Feed from "@/components/features/feed/feed";
 import { RightSidebar } from "@/components/home/feed/right-sidebar";
 import { useRouter } from "next/navigation";
 import { useAddress } from "@chopinframework/react";
@@ -47,13 +47,7 @@ export default function Page() {
         <main className="flex-1 border-x dark:border-accent/10 px-4 sm:px-8">
           <div className="max-w-2xl mx-auto py-8">
             <PostComposer />
-            <div className="space-y-4 p-4">
-              <FeedPost {...post} />
-              <FeedPost {...post} />
-              <FeedPost {...post} />
-              <FeedPost {...post} />
-              <FeedPost {...post} />
-            </div>
+            <Feed/>
           </div>
         </main>
         <aside className="hidden lg:block lg:w-80 xl:w-96 h-screen sticky top-0 overflow-y-auto p-8 pr-[5rem]">
