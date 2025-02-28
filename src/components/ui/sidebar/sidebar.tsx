@@ -12,7 +12,7 @@ const navItems = [
   { title: "Governance", icon: MessageSquare, href: "/governance" },
   { title: "Hai AI", icon: Users, href: "/explore" },
   { title: "Settings", icon: Settings, href: "/settings" },
-  { title: "Messages", icon: MessageSquare, href: "/messages" },
+  { title: "Messages", icon: MessageSquare, href: "/chat" },
   { title: "Profile", icon: User, href: "/profile" },
 ]
 
