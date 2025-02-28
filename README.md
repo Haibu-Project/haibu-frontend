@@ -70,10 +70,10 @@ npm install --legacy-peer-deps
 ### 🔥 Run the Project
 
 ```sh
-npm run dev
+npx chopd
 ```
 
-Your local development server should now be running at `http://localhost:3000`.
+Your local development server should now be running at `http://localhost:4000`.
 
 ---
 
