@@ -1,4 +1,3 @@
-import { MainNav } from "@/components/ui/sidebar/sidebar";
 import FeedContainer from "@/components/features/feed/feed-charge";
 import { RightSidebar } from "@/components/home/feed/right-sidebar";
 import AuthGuard from "@/components/AuthGuard";

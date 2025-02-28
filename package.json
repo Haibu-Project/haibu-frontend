@@ -9,7 +9,7 @@
     "lint": "next lint"
   },
   "dependencies": {
-    "@chopinframework/next": "^1.1.3",
+    "@chopinframework/next": "^1.1.4",
     "@chopinframework/react": "^0.1.1",
     "@radix-ui/react-avatar": "^1.1.3",
     "@radix-ui/react-dialog": "^1.1.6",

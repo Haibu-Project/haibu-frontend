@@ -63,7 +63,7 @@ export default function CreatePostModal({ isOpen, onClose }: Props) {
                   type="text"
                   value={title}
                   onChange={(e) => setTitle(e.target.value)}
-                  placeholder="Título del post"
+                  placeholder="Title"
                   maxLength={MAX_TITLE_CHARS}
                 />
                 <textarea
@@ -71,7 +71,7 @@ export default function CreatePostModal({ isOpen, onClose }: Props) {
                   rows={4}
                   value={content}
                   onChange={(e) => setContent(e.target.value)}
-                  placeholder="¿Qué está pasando?"
+                  placeholder="¿What are you thinking?"
                   maxLength={MAX_CONTENT_CHARS}
                 />
               </div>
@@ -101,7 +101,7 @@ export default function CreatePostModal({ isOpen, onClose }: Props) {
               onClick={() => mutate({ title, content, userId })}
               disabled={isLoading || !title.trim() || !content.trim()}
             >
-              {isLoading ? "Enviando..." : "Publicar"}
+              {isLoading ? "Posting..." : "Post a Hai"}
             </Button>
           </div>
 
