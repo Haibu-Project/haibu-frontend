@@ -3,6 +3,7 @@
 import { useQuery } from "@tanstack/react-query";
 import PostCard from "@/components/home/feed/feed-post";
 import { fetchPosts } from "@/api/post.api";
+import FeedHeader from "./header";
 
 interface Post {
   id: string;
@@ -19,11 +20,12 @@ export default function FeedClient({ initialPosts }: { initialPosts: Post[] }) {
     initialData: initialPosts,
   });
 
-  if (isLoading) return <p>Cargando posts...</p>;
-  if (error) return <p>Error al cargar posts</p>;
+  if (isLoading) return <p>Loadin posts...</p>;
+  if (error) return <p>Error while loading posts</p>;
 
   return (
     <div className="space-y-6">
+      <FeedHeader />
       {posts?.map((post:Post) => (
         <PostCard key={post.id} post={post} />
       ))}

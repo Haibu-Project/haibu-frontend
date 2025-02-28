@@ -56,7 +56,7 @@ export function InfiniteBeeAllFrames({ width, height, className }: InfiniteBeeAl
   useEffect(() => {
     const interval = setInterval(() => {
       setFrameIndex((prevIndex) => (prevIndex + 1) % frames.length);
-    }, 100); // Adjust the interval as needed
+    }, 100); 
     return () => clearInterval(interval);
   }, []);
 

@@ -30,8 +30,7 @@ const PostCard = ({ post }: { post: Post }) => {
       <div className="p-5">
         <div className="flex items-center justify-between mb-4">
           <div>
-            <h2 className="font-semibold text-gray-900 dark:text-white text-lg">{post.user.username}</h2>
-            <p className="text-sm text-gray-600 dark:text-gray-400">{new Date(post.createdAt).toLocaleString()}</p>
+            <h2 className="font-semibold text-[#4460F0] text-lg">@{post.user.username}</h2>
           </div>
           <button className="text-gray-500 hover:text-gray-700 dark:hover:text-gray-300">
             <MoreHorizontal className="h-6 w-6" />
@@ -41,6 +40,7 @@ const PostCard = ({ post }: { post: Post }) => {
         <div className="space-y-2">
           <h3 className="text-xl font-bold">{post.title}</h3>
           <p className="text-gray-800 dark:text-gray-300 leading-relaxed">{post.content}</p>
+          <p className="text-sm text-gray-600 dark:text-gray-400">{new Date(post.createdAt).toLocaleString()}</p>
         </div>
 
         <div className="mt-5 flex items-center justify-between">
