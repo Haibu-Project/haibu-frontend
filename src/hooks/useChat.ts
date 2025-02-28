@@ -15,36 +15,45 @@ export function useChat(userId: string) {
   useEffect(() => {
     if (!userId) return;
 
-    socket.emit("/chat/getChats", { userId });
+    fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/chats/${userId}`)
+      .then((res) => res.json())
+      .then(setChats)
+      .catch(console.error);
 
-    socket.on("/chat/chatList", (chatList) => {
-      setChats(chatList);
-    });
-
-    socket.on("/chat/receiveMessage", (message) => {
+    socket.on("receiveMessage", (message) => {
       setMessages((prev) => [...prev, message]);
     });
 
+    socket.on("searchUsersResults", (results) => {
+      setSearchResults(results || []);
+    });
+
     return () => {
-      socket.off("chatList");
       socket.off("receiveMessage");
+      socket.off("searchUsersResults");
     };
   }, [userId]);
 
-  const createChat = (newChatUser: string, onSuccess?: () => void) => {
+  const createChat = async (newChatUser: string, onSuccess?: () => void) => {
     if (!newChatUser || !userId) return;
 
-    socket.emit("createChat", { userA: userId, userB: newChatUser }, (chat: any) => {
-      if (chat) {
-        setChats((prevChats) => [...prevChats, chat]);
-        if (onSuccess) onSuccess();
-      } else {
-        console.error("Error: No se pudo crear el chat");
-      }
-    });
+    try {
+      const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/chats`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ userA: userId, userB: newChatUser }),
+      });
+
+      if (!response.ok) throw new Error("Error al crear chat");
+
+      const chat = await response.json();
+      setChats((prevChats) => [...prevChats, chat]);
+      if (onSuccess) onSuccess();
+    } catch (error) {
+      console.error("Error:", error);
+    }
   };
 
-  // Buscar usuarios
   const searchUsers = (query: string) => {
     if (!query.trim()) {
       setSearchResults([]);
@@ -55,22 +64,35 @@ export function useChat(userId: string) {
     });
   };
 
-  const deleteChat = (chatId: string) => {
-    socket.emit("/chat/deleteChat", { chatId });
-    setChats((prevChats) => prevChats.filter((chat) => chat.id !== chatId));
-  };
-  const selectChat = (chatId: string) => {
-    setActiveChat(chatId);
-    socket.emit("/chat/joinChat", { chatId, userId });
+  const deleteChat = async (chatId: string) => {
+    try {
+      const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/chats/${chatId}`, { method: "DELETE" });
+      if (!response.ok) throw new Error("Error al eliminar chat");
 
-    socket.emit("/chat/getMessages", { chatId }, (chatMessages: any[]) => {
+      setChats((prevChats) => prevChats.filter((chat) => chat.id !== chatId));
+    } catch (error) {
+      console.error("Error:", error);
+    }
+  };
+
+  const selectChat = async (chatId: string) => {
+    setActiveChat(chatId);
+    socket.emit("joinChat", { chatId, userId });
+
+    try {
+      const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/chats/messages/${chatId}`);
+      if (!response.ok) throw new Error("Error al obtener mensajes");
+
+      const chatMessages = await response.json();
       setMessages(chatMessages);
-    });
+    } catch (error) {
+      console.error("Error:", error);
+    }
   };
 
   const sendMessage = () => {
     if (!newMessage.trim() || !activeChat) return;
-    socket.emit("/chat/sendMessage", { chatId: activeChat, senderId: userId, content: newMessage });
+    socket.emit("sendMessage", { chatId: activeChat, senderId: userId, content: newMessage });
     setNewMessage("");
   };
 
