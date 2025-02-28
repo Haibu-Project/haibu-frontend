@@ -28,6 +28,13 @@ export async function fetchPosts() {
   return response.json()
 }
 
+export async function deletePost(postId: string) {
+  await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/posts/${postId}`, {
+      method: "DELETE"
+  });
+}
+
+
 export async function fetchPost(id: string) {
   const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/posts/${id}`)
   if (!response.ok) {

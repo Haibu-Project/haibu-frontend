@@ -1,14 +1,15 @@
 "use client";
 
-import { MoreHorizontal, MessageSquare, Heart, Repeat2, Share, Send, Trash2, Loader2 } from "lucide-react";
+import { EllipsisVertical, MessageSquare, Heart, Repeat2, Share, Send, Trash2, Loader2 } from "lucide-react";
 import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { useState } from "react";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { likePost, unlikePost, getPostLikes, addComment, fetchComments, deleteComment } from "@/api/post.api";
+import { likePost, unlikePost, getPostLikes, addComment, fetchComments, deleteComment, deletePost } from "@/api/post.api";
 import { useUserStore } from "@/store/user-store";
+import { DropdownMenu, DropdownMenuTrigger, DropdownMenuContent, DropdownMenuItem } from "@/components/ui/dropdown-menu";
 
 interface Post {
   id: string;
@@ -48,6 +49,13 @@ const PostCard = ({ post }: { post: Post }) => {
   const liked = likeData?.userHasLiked ?? false;
   const commentCount = comments?.length ?? 0;
 
+  const { mutate: deletePostMutate, isLoading: isDeletingPost } = useMutation({
+    mutationFn: async () => deletePost(post.id),
+    onSuccess: () => {
+      queryClient.invalidateQueries(["posts"]);
+    },
+  });
+
   const { mutate: likePostMutate } = useMutation({
     mutationFn: () => likePost(userId, post.id),
     onSuccess: () => {
@@ -65,16 +73,17 @@ const PostCard = ({ post }: { post: Post }) => {
   });
 
   const { mutate: addCommentMutate, isLoading: isAddingComment } = useMutation({
-    mutationFn: ({ content, userId, postId }: { content: string; userId: string; postId: string }) =>
+    mutationFn: async ({ content, userId, postId }: { content: string; userId: string; postId: string }) =>
       addComment(content, userId, postId),
     onSuccess: () => {
       queryClient.invalidateQueries(["comments", post.id]);
       refetchComments();
+      setCommentText(""); // Limpia el input tras enviar un comentario
     },
   });
 
   const { mutate: deleteCommentMutate, isLoading: isDeletingComment } = useMutation({
-    mutationFn: (commentId: string) => deleteComment(commentId),
+    mutationFn: async (commentId: string) => deleteComment(commentId),
     onSuccess: () => {
       queryClient.invalidateQueries(["comments", post.id]);
       refetchComments();
@@ -94,8 +103,23 @@ const PostCard = ({ post }: { post: Post }) => {
         </div>
       ) : (
         <div className="p-5">
-          <div className="flex items-center justify-between mb-4">
+          <div className="flex items-center justify-between">
             <h2 className="font-semibold text-[#4460F0] text-lg">@{post.user.username}</h2>
+
+            {userId === post.user.id && (
+              <DropdownMenu>
+                <DropdownMenuTrigger asChild>
+                  <button className="text-gray-500 hover:text-gray-700 dark:hover:text-gray-300">
+                    <EllipsisVertical className="h-6 w-6" />
+                  </button>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent align="end">
+                  <DropdownMenuItem onClick={() => deletePostMutate()} disabled={isDeletingPost}>
+                    <Trash2 className="mr-2 h-4 w-4 text-red-500" /> {isDeletingPost ? "Deleting..." : "Delete Post"}
+                  </DropdownMenuItem>
+                </DropdownMenuContent>
+              </DropdownMenu>
+            )}
           </div>
 
           <div className="space-y-2">
@@ -104,52 +128,43 @@ const PostCard = ({ post }: { post: Post }) => {
             <p className="text-sm text-gray-600 dark:text-gray-400">{new Date(post.createdAt).toLocaleString()}</p>
           </div>
 
-          <div className="mt-5 flex items-center justify-between">
-            <div className="flex space-x-6">
+          <div className="mt-5 flex items-center gap-3">
+            <button onClick={() => (liked ? unlikePostMutate() : likePostMutate())} className="flex items-center space-x-2 transition-colors">
+              <Heart className={`h-5 w-5 ${liked ? "text-red-500" : "text-gray-600 hover:text-primary"}`} />
+              <span className="text-sm font-medium">{isFetchingLikes ? <Loader2 className="animate-spin h-4 w-4" /> : likeData?.likes ?? 0}</span>
+            </button>
 
-              <button onClick={() => (liked ? unlikePostMutate() : likePostMutate())} className="flex items-center space-x-2 transition-colors">
-                <Heart className={`h-5 w-5 ${liked ? "text-red-500" : "text-gray-600 hover:text-primary"}`} />
-                <span className="text-sm font-medium">{isFetchingLikes ? <Loader2 className="animate-spin h-4 w-4" /> : likeData?.likes ?? 0}</span>
-              </button>
-
-              <Dialog>
-                <DialogTrigger asChild>
-                  <button className="flex items-center space-x-2 text-gray-600 hover:text-primary transition-colors">
-                    <MessageSquare className="h-5 w-5" />
-                    <span className="text-sm font-medium">{isFetchingComments ? <Loader2 className="animate-spin h-4 w-4" /> : commentCount}</span>
-                  </button>
-                </DialogTrigger>
-                <DialogContent className="max-w-lg">
-                  <ScrollArea className="h-60 border-b p-2">
-                    {isFetchingComments ? (
-                      <p className="text-gray-500">Loading comments...</p>
-                    ) : commentCount > 0 ? (
-                      comments.map((comment: Comment) => (
-                        <div key={comment.id} className="mb-2 border-b pb-2 flex justify-between items-center">
-                          <div>
-                            <p className="font-bold text-sm text-[#4460F0]">@{comment.user.username}</p>
-                            <p>{comment.content}</p>
-                          </div>
-                          {comment.user.id === userId && (
-                            <button onClick={() => deleteCommentMutate(comment.id)} disabled={isDeletingComment}>
-                              <Trash2 className="h-4 w-4 text-red-500" />
-                            </button>
-                          )}
-                        </div>
-                      ))
-                    ) : (
-                      <p className="text-gray-500">No comments yet.</p>
-                    )}
-                  </ScrollArea>
-                  <div className="flex items-center mt-2">
-                    <Input value={commentText} onChange={(e) => setCommentText(e.target.value)} placeholder="Comment something..." className="flex-1" />
-                    <Button onClick={handleAddComment} disabled={isAddingComment} className="ml-2 bg-[#4460F0]">
-                      {isAddingComment ? "..." : <Send color="white" size={16} />}
-                    </Button>
-                  </div>
-                </DialogContent>
-              </Dialog>
-            </div>
+            <Dialog>
+              <DialogTrigger asChild>
+                <button className="flex items-center space-x-2 text-gray-600 hover:text-primary transition-colors">
+                  <MessageSquare className="h-5 w-5" />
+                  <span className="text-sm font-medium">{isFetchingComments ? <Loader2 className="animate-spin h-4 w-4" /> : commentCount}</span>
+                </button>
+              </DialogTrigger>
+              <DialogContent className="max-w-lg">
+                <ScrollArea className="h-60 border-b p-2">
+                  {comments?.map((comment: Comment) => (
+                    <div key={comment.id} className="mb-2 border-b pb-2 flex justify-between items-center">
+                      <div>
+                        <p className="font-bold text-sm text-[#4460F0]">@{comment.user.username}</p>
+                        <p>{comment.content}</p>
+                      </div>
+                      {comment.user.id === userId && (
+                        <button onClick={() => deleteCommentMutate(comment.id)} disabled={isDeletingComment}>
+                          <Trash2 className="h-4 w-4 text-red-500" />
+                        </button>
+                      )}
+                    </div>
+                  ))}
+                </ScrollArea>
+                <div className="flex items-center mt-2">
+                  <Input value={commentText} onChange={(e) => setCommentText(e.target.value)} placeholder="Comment something..." className="flex-1" />
+                  <Button onClick={handleAddComment} disabled={isAddingComment} className="ml-2 bg-[#4460F0]">
+                    {isAddingComment ? "..." : <Send color="white" size={16} />}
+                  </Button>
+                </div>
+              </DialogContent>
+            </Dialog>
           </div>
         </div>
       )}
