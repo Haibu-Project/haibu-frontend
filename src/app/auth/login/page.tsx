@@ -1,6 +1,6 @@
 "use client";
 import { useEffect } from "react";
-import Login from "@/components/features/Auth/login/Login";
+import Login from "@/components/features/auth/login/Login";
 
 export default function LoginPage() {
   useEffect(() => {
