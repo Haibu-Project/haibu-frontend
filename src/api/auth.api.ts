@@ -38,13 +38,12 @@ export async function loginUser(email: string) {
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ email }),
     });
-
+    console.log(res)
     if (!res.ok) {
       console.error("Login failed.");
       return null;
     }
-
-    return res.json();
+    return await res.json();
   } catch (error) {
     console.error("Authentication error:", error);
     return null;

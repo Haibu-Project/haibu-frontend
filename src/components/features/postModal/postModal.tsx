@@ -16,14 +16,13 @@ interface Props {
 }
 
 export default function CreatePostModal({ isOpen, onClose }: Props) {
-  const { user } = useUserStore()
+  const { id:userId } = useUserStore()
   const [title, setTitle] = useState("")
   const [content, setContent] = useState("")
   const [error, setError] = useState("")
   const queryClient = useQueryClient()
   const MAX_TITLE_CHARS = 100
   const MAX_CONTENT_CHARS = 500
-  const userId = "currentUserId"
 
   const { mutate, isLoading } = useMutation({
     mutationFn: createPost,

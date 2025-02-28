@@ -14,7 +14,7 @@ export default function Page() {
   const router = useRouter();
 
   if (!address && !isLoading) {
-    router.push("/auth/login");
+    router.push("/auth/register");
   }
 
   if (isLoading || isRegistered === null) {
