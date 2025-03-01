@@ -28,6 +28,15 @@ export async function fetchPosts() {
   return response.json()
 }
 
+
+export async function fetchPostsByUserId(id: string) {
+  const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/posts/user/${id}`)
+  if (!response.ok) {
+    throw new Error("Error fetching post")
+  }
+  return response.json()
+}
+
 export async function deletePost(postId: string) {
   await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/posts/${postId}`, {
       method: "DELETE"
@@ -85,4 +94,6 @@ export async function deleteComment(commentId: string) {
       method: "DELETE"
   });
 }
+
+
 
