@@ -4,7 +4,7 @@ import * as Dialog from "@radix-ui/react-dialog"
 import { useState } from "react"
 import { useMutation, useQueryClient } from "@tanstack/react-query"
 import { createPost } from "@/api/post.api"
-import { Image, X, Smile, Calendar, MapPin } from "lucide-react"
+import {  X } from "lucide-react"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { Separator } from "@/components/ui/separator"
 import { Button } from "@/components/ui/button"
@@ -24,10 +24,10 @@ export default function CreatePostModal({ isOpen, onClose }: Props) {
   const MAX_TITLE_CHARS = 100
   const MAX_CONTENT_CHARS = 500
 
-  const { mutate, isLoading } = useMutation({
+  const { mutate, isPending } = useMutation({
     mutationFn: createPost,
     onSuccess: () => {
-      queryClient.invalidateQueries(["posts"])
+      queryClient.invalidateQueries({queryKey: ["posts"]})
       setTitle("")
       setContent("")
       onClose()
@@ -82,27 +82,13 @@ export default function CreatePostModal({ isOpen, onClose }: Props) {
           <Separator />
 
           <div className="flex items-center justify-between p-4">
-            <div className="flex gap-2 text-twitter">
-              <button className="rounded-full p-2 hover:bg-blue-50">
-                <Image size={18} className="text-twitter" />
-              </button>
-              <button className="rounded-full p-2 hover:bg-blue-50">
-                <Smile size={18} className="text-twitter" />
-              </button>
-              <button className="rounded-full p-2 hover:bg-blue-50">
-                <Calendar size={18} className="text-twitter" />
-              </button>
-              <button className="rounded-full p-2 hover:bg-blue-50">
-                <MapPin size={18} className="text-twitter" />
-              </button>
-            </div>
 
             <Button
               className="rounded-full bg-twitter px-4 py-1 font-bold bg-black text-white hover:bg-twitter/90 disabled:opacity-50"
               onClick={() => mutate({ title, content, userId })}
-              disabled={isLoading || !title.trim() || !content.trim()}
+              disabled={isPending || !title.trim() || !content.trim()}
             >
-              {isLoading ? "Posting..." : "Post a Hai"}
+              {isPending ? "Posting..." : "Post a Hai"}
             </Button>
           </div>
 
