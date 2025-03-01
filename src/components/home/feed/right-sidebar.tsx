@@ -4,25 +4,31 @@ import Image from "next/image"
 export function RightSidebar() {
   const peopleToFollow = [
     {
-      name: "Sarah Chen",
-      handle: "@sarahchen",
-      avatar: "/placeholder.svg?height=40&width=40",
-      bio: "AI Researcher | Building the future",
+      name: "Kevin Latino",
+      handle: "@KevinLatino",
+      avatar: "https://pbs.twimg.com/profile_images/1853501471339229184/NG1UhuP1_400x400.jpg",
+      bio: "Founder and CTO of Haibu",
     },
     {
-      name: "Alex Rivera",
-      handle: "@arivera",
-      avatar: "/placeholder.svg?height=40&width=40",
-      bio: "Full-stack developer & Web3 enthusiast",
+      name: "Santiago Villarreal",
+      handle: "@villarley",
+      avatar: "https://pbs.twimg.com/profile_images/1856540261385469952/mC-Mntm6_400x400.jpg",
+      bio: "COO Haibu",
     },
     {
-      name: "Maria García",
-      handle: "@mgarcia",
-      avatar: "/placeholder.svg?height=40&width=40",
-      bio: "Product Designer | UX/UI Expert",
+      name: "Saymon Porras",
+      handle: "@CtpN3m0",
+      avatar: "https://pbs.twimg.com/profile_images/1852100218520535040/7Gyr1zZQ_400x400.jpg",
+      bio: "Founder and Developer of Haibu",
     },
   ]
 
+  const trendingHashtags = [
+    "#haibu",
+    "#haika",
+    "#haitoken",
+    "#haiclick"
+  ]
 
   return (
     <div className="w-80 space-y-6 p-4">
@@ -69,6 +75,11 @@ export function RightSidebar() {
         <h2 className="text-xl font-bold mb-4 text-primary-dark dark:text-white flex items-center">
           <TrendingUp className="mr-2 h-5 w-5 text-tertiary" /> Trending
         </h2>
+        <div className="space-y-2 pl-5">
+          {trendingHashtags.map((hashtag, index) => (
+            <p key={index} className="text-xl text-gray-800 dark:text-white font-semibold">{hashtag}</p>
+          ))}
+        </div>
       </div>
     </div>
   )
