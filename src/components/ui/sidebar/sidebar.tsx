@@ -11,7 +11,7 @@ import CreatePostModal from "@/components/features/postModal/postModal"
 const navItems = [
   { title: "Home", icon: Home, href: "/" },
   { title: "Governance", icon: MessageSquare, href: "/governance" },
-  { title: "Hai AI", icon: Users, href: "/explore" },
+  { title: "Haika", icon: Users, href: "/haika" },
   { title: "Settings", icon: Settings, href: "/settings" },
   { title: "Messages", icon: MessageSquare, href: "/messages" },
   { title: "Profile", icon: User, href: "/profile" },
