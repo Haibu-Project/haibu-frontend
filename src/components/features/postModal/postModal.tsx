@@ -37,6 +37,7 @@ export default function CreatePostModal({ isOpen, onClose }: Props) {
     },
   })
 
+
   return (
     <Dialog.Root open={isOpen} onOpenChange={onClose}>
       <Dialog.Portal>
