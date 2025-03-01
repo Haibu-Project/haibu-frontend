@@ -87,7 +87,7 @@ const Chat = () => {
         <div className="flex flex-col h-full w-full p-4 bg-haibu-purple rounded-lg shadow-md transition-all duration-500">
             {!isChatStarted ? (
                 <div className="flex flex-col items-center justify-center h-full transition-all duration-500">
-                    <h1 className="text-2xl font-bold mb-4 text-haibu-purple">How can I help you?</h1>
+                    <h1 className="text-2xl font-bold mb-4 text-haibu-purple">I'm Haika. How can I help you?</h1>
                     <div className="flex items-center w-full max-w-md">
                         <input
                             value={message}
