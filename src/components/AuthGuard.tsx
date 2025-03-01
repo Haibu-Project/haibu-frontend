@@ -1,28 +1,20 @@
 "use client";
 
-import { useEffect } from "react";
-import { useAddress } from "@chopinframework/react";
+import { useAuthCheck } from "@/hooks/useAuthChek";
 import { useRouter } from "next/navigation";
-import { checkRegistration } from "@/api/auth.api";
+import { useAddress } from "@chopinframework/react";
+import { ReactNode } from "react";
 
-export default function AuthGuard({ children }: { children: React.ReactNode }) {
+export default function AuthGuard({ children }: { children: ReactNode }) {
   const { address, isLoading } = useAddress();
+  const { isRegistered } = useAuthCheck();
   const router = useRouter();
 
-  useEffect(() => {
-    async function verifyAuth() {
-      if (!address || isLoading) return;
+  if (!address && !isLoading) {
+    router.push("/auth/register");
+  }
 
-      const isRegistered = await checkRegistration(address);
-      if (!isRegistered) {
-        router.push("/auth/register");
-      }
-    }
-
-    verifyAuth();
-  }, [address, isLoading, router]);
-
-  if (isLoading) {
+  if (isLoading || isRegistered === null) {
     return <div>Loading...</div>;
   }
 

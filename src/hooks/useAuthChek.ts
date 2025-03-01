@@ -16,7 +16,7 @@ export function useAuthCheck() {
     if (!address || isLoading) return;
 
     async function fetchRegistrationStatus() {
-      const registered = await checkRegistration(address);
+      const registered = await checkRegistration(email);
       setIsRegistered(registered);
       localStorage.setItem("isRegistered", JSON.stringify(registered));
     }
@@ -56,6 +56,7 @@ export function useAuthCheck() {
         surnames: loginData.user?.surnames,
         username: loginData.user?.username,
         email: loginData.user?.email,
+        id: loginData.user?.id,
       });
     }
 

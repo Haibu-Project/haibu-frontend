@@ -16,14 +16,13 @@ interface Props {
 }
 
 export default function CreatePostModal({ isOpen, onClose }: Props) {
-  const { user } = useUserStore()
+  const { id:userId } = useUserStore()
   const [title, setTitle] = useState("")
   const [content, setContent] = useState("")
   const [error, setError] = useState("")
   const queryClient = useQueryClient()
   const MAX_TITLE_CHARS = 100
   const MAX_CONTENT_CHARS = 500
-  const userId = "currentUserId"
 
   const { mutate, isLoading } = useMutation({
     mutationFn: createPost,
@@ -37,6 +36,7 @@ export default function CreatePostModal({ isOpen, onClose }: Props) {
       setError(e instanceof Error ? e.message : "Error")
     },
   })
+
 
   return (
     <Dialog.Root open={isOpen} onOpenChange={onClose}>
@@ -64,7 +64,7 @@ export default function CreatePostModal({ isOpen, onClose }: Props) {
                   type="text"
                   value={title}
                   onChange={(e) => setTitle(e.target.value)}
-                  placeholder="Título del post"
+                  placeholder="Title"
                   maxLength={MAX_TITLE_CHARS}
                 />
                 <textarea
@@ -72,7 +72,7 @@ export default function CreatePostModal({ isOpen, onClose }: Props) {
                   rows={4}
                   value={content}
                   onChange={(e) => setContent(e.target.value)}
-                  placeholder="¿Qué está pasando?"
+                  placeholder="¿What are you thinking?"
                   maxLength={MAX_CONTENT_CHARS}
                 />
               </div>
@@ -102,7 +102,7 @@ export default function CreatePostModal({ isOpen, onClose }: Props) {
               onClick={() => mutate({ title, content, userId })}
               disabled={isLoading || !title.trim() || !content.trim()}
             >
-              {isLoading ? "Enviando..." : "Publicar"}
+              {isLoading ? "Posting..." : "Post a Hai"}
             </Button>
           </div>
 

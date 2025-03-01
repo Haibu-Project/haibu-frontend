@@ -1,8 +1,8 @@
 export const API_URL = process.env.NEXT_PUBLIC_API_URL;
 
-export async function checkRegistration(address: string): Promise<boolean> {
+export async function checkRegistration(email: string): Promise<boolean> {
   try {
-    const res = await fetch(`${API_URL}/api/auth/exists/${address}`);
+    const res = await fetch(`${API_URL}/api/auth/exists/${email}`);
     return res.ok;
   } catch (error) {
     console.error("Error checking registration:", error);
@@ -38,13 +38,12 @@ export async function loginUser(email: string) {
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ email }),
     });
-
+    console.log(res)
     if (!res.ok) {
       console.error("Login failed.");
       return null;
     }
-
-    return res.json();
+    return await res.json();
   } catch (error) {
     console.error("Authentication error:", error);
     return null;
