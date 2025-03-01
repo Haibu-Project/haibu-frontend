@@ -3,6 +3,7 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { Button } from "@/components/ui/button"
 import { HaiCard } from "@/components/posts/hai-card"
 import { CalendarDays, Link2, MapPin } from "lucide-react"
+import Image from "next/image"
 
 // Mock data - replace with your actual data fetching
 const profile = {
@@ -43,7 +44,7 @@ export default function ProfilePage() {
     <main className="min-h-screen bg-white">
       {/* Cover Image */}
       <div className="relative h-[200px] md:h-[300px]">
-        <img src={profile.cover || "/placeholder.svg"} alt="" className="h-full w-full object-cover" />
+        <Image src={profile.cover || "/placeholder.svg"} height="100%" width="100%" alt="" className="h-full w-full object-cover" />
         <div className="absolute -bottom-16 left-4 md:left-6">
           <Avatar className="h-32 w-32 border-4 border-white">
             <AvatarImage src={profile.avatar} alt={profile.name} />

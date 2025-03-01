@@ -84,7 +84,7 @@ export default function CreatePostModal({ isOpen, onClose }: Props) {
           <div className="flex items-center justify-between p-4">
             <div className="flex gap-2 text-twitter">
               <button className="rounded-full p-2 hover:bg-blue-50">
-                <Image size={18} className="text-twitter" />
+                <Image alt="text-twitter" size={18} className="text-twitter" />
               </button>
               <button className="rounded-full p-2 hover:bg-blue-50">
                 <Smile size={18} className="text-twitter" />

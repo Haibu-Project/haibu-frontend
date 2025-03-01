@@ -2,7 +2,6 @@
 
 import { useEffect, useState } from "react";
 import { useAddress } from "@chopinframework/react";
-import { useRouter } from "next/navigation";
 import { useUserStore } from "@/store/user-store";
 import { checkRegistration, registerUser, loginUser } from "@/api/auth.api";
 
@@ -10,7 +9,6 @@ export function useAuthCheck() {
   const { address, isLoading } = useAddress();
   const { setUser, name, surnames, username, email } = useUserStore();
   const [isRegistered, setIsRegistered] = useState<boolean | null>(null);
-  const router = useRouter();
 
   useEffect(() => {
     if (!address || isLoading) return;
