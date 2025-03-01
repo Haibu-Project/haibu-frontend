@@ -11,8 +11,13 @@ interface Post {
   title: string;
   content: string;
   createdAt: string;
-  user: { username: string };
+  user: {
+    id: string;
+    username: string;
+    image: string;
+  };
 }
+
 
 export default function FeedClient({ initialPosts }: { initialPosts: Post[] }) {
   const { data: posts, isLoading, error } = useQuery({
@@ -36,7 +41,7 @@ export default function FeedClient({ initialPosts }: { initialPosts: Post[] }) {
   return (
     <div className="space-y-6">
       <FeedHeader />
-      {posts?.map((post) => (
+      {posts?.map((post: Post) => (
         <PostCard key={post.id} post={post} />
       ))}
     </div>

@@ -33,7 +33,7 @@ const PostCard = ({ post }: { post: Post }) => {
   const { data: likeData, refetch: refetchLikes, isFetching: isFetchingLikes, isLoading: isLoadingLikes } = useQuery({
     queryKey: ["likes", post.id, userId],
     queryFn: async () => {
-      const res = await getPostLikes(post.id, userId);
+      const res = await getPostLikes(post.id);
       return {
         likes: res.likes ?? 0,
         userHasLiked: res.userHasLiked ?? false,
@@ -49,17 +49,17 @@ const PostCard = ({ post }: { post: Post }) => {
   const liked = likeData?.userHasLiked ?? false;
   const commentCount = comments?.length ?? 0;
 
-  const { mutate: deletePostMutate, isLoading: isDeletingPost } = useMutation({
+  const { mutate: deletePostMutate, isPending: isDeletingPost } = useMutation({
     mutationFn: async () => deletePost(post.id),
     onSuccess: () => {
-      queryClient.invalidateQueries(["posts"]);
+      queryClient.invalidateQueries({queryKey: ["posts"]});
     },
   });
 
   const { mutate: likePostMutate } = useMutation({
     mutationFn: () => likePost(userId, post.id),
     onSuccess: () => {
-      queryClient.invalidateQueries(["likes", post.id, userId]);
+      queryClient.invalidateQueries({queryKey:["likes", post.id, userId]});
       refetchLikes();
     },
   });
@@ -67,25 +67,25 @@ const PostCard = ({ post }: { post: Post }) => {
   const { mutate: unlikePostMutate } = useMutation({
     mutationFn: () => unlikePost(userId, post.id),
     onSuccess: () => {
-      queryClient.invalidateQueries(["likes", post.id, userId]);
+      queryClient.invalidateQueries({queryKey:["likes", post.id, userId]});
       refetchLikes();
     },
   });
 
-  const { mutate: addCommentMutate, isLoading: isAddingComment } = useMutation({
+  const { mutate: addCommentMutate, isPending: isAddingComment } = useMutation({
     mutationFn: async ({ content, userId, postId }: { content: string; userId: string; postId: string }) =>
       addComment(content, userId, postId),
     onSuccess: () => {
-      queryClient.invalidateQueries(["comments", post.id]);
+      queryClient.invalidateQueries({queryKey:["comments", post.id]});
       refetchComments();
       setCommentText(""); // Limpia el input tras enviar un comentario
     },
   });
 
-  const { mutate: deleteCommentMutate, isLoading: isDeletingComment } = useMutation({
+  const { mutate: deleteCommentMutate, isPending: isDeletingComment } = useMutation({
     mutationFn: async (commentId: string) => deleteComment(commentId),
     onSuccess: () => {
-      queryClient.invalidateQueries(["comments", post.id]);
+      queryClient.invalidateQueries({queryKey:["comments", post.id]});
       refetchComments();
     },
   });

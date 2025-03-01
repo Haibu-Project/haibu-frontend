@@ -1,4 +1,4 @@
-export async function createPost(data: { content: string; userId?: string }) {
+export async function createPost(data: { content: string; userId?: string, title: string}) {
   try {
     const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/posts`, {
       method: "POST",

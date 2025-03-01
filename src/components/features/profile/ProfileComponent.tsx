@@ -9,6 +9,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Calendar, Globe, MapPin, MessageCircle, Users } from "lucide-react";
 import ProfileHeader from "./header";
 import { useUserStore } from "@/store/user-store";
+import { Post } from "@/types/post";
 
 export default function ProfileComponent() {
 
@@ -95,7 +96,7 @@ export default function ProfileComponent() {
               <p className="text-red-500">Error fetching posts.</p>
             ) : posts?.length > 0 ? (
               <div className="flex flex-col gap-4">
-                {posts.map((post) => (
+                {posts.map((post:Post) => (
                   <Card key={post.id} className="p-4">
                     <h2 className="text-xl font-bold">{post.title}</h2>
                     <p className="text-gray-600 dark:text-gray-300 mt-2">{post.content}</p>
