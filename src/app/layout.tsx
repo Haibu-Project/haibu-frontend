@@ -1,8 +1,9 @@
+import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import { Providers } from "./providers";
-import MainLayout from "./layout/MainLayout";
 import "./globals.css";
 import "animate.css";
+import LayoutLogic from "./LayoutLogic"; 
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -14,7 +15,7 @@ const geistMono = Geist_Mono({
   subsets: ["latin"],
 });
 
-export const metadata = {
+export const metadata: Metadata = {
   title: "Haibu Project",
   description: "Haibu project",
 };
@@ -28,7 +29,11 @@ export default function RootLayout({
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
         <Providers>
-          <MainLayout>{children}</MainLayout>
+          <LayoutLogic>
+            <main className="flex-1 flex flex-col h-screen overflow-hidden">
+              <div className="flex-1 overflow-y-auto">{children}</div>
+            </main>
+          </LayoutLogic>
         </Providers>
       </body>
     </html>
