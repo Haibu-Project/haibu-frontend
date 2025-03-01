@@ -9,7 +9,7 @@ export default function GovernanceHeader() {
                         Start Earning Hai Tokens
                     </h1>
                     <p className="text-[18px] font-medium text-white">
-                        Hai Tokens are the Haibu's governance token, start accumulating them to participate in our voting campaigns.
+                        Hai Tokens are the Haibu&apos;s governance token, start accumulating them to participate in our voting campaigns.
                     </p>
                 </div>
                 <div className="w-1/3 flex justify-end mr-[4rem]">

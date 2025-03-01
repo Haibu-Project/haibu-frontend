@@ -15,8 +15,8 @@ type TaskCardProps = {
   progress?: number
 }
 
-const CampaignCard: React.FC<TaskCardProps> = ({ title, description, priority, progress = 65 }) => {
-  const [vote, setVote] = useState<string | null>(null);
+const CampaignCard: React.FC<TaskCardProps> = ({ title, description }) => {
+
   const [options, setOptions] = useState(false);
 
 

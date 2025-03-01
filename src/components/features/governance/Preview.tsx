@@ -1,4 +1,4 @@
-import { ArrowRight, PlayCircle, Sparkles } from "lucide-react"
+import { ArrowRight, Sparkles } from "lucide-react"
 import { InfiniteBeeAllFrames } from "@/components/magicui/infinite-bee-all-frames"
 import { Card } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"

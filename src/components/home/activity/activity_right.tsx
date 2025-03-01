@@ -65,7 +65,7 @@ const SocialSection = () => {
                 </button>
               </div>
               <p className="text-sm mt-2 text-gray-600">
-                Haibu is a decentralized and secure social platform built on top of Celestia's network. Here, you shape
+                Haibu is a decentralized and secure social platform built on top of Celestia&apos;s network. Here, you shape
                 the future.
               </p>
             </div>
@@ -74,7 +74,7 @@ const SocialSection = () => {
 
         {/* What's happening Section */}
         <div className="bg-white rounded-lg shadow-md p-5">
-          <h2 className="text-xl font-bold text-gray-800 mb-4">What's happening</h2>
+          <h2 className="text-xl font-bold text-gray-800 mb-4">What&apos;s happening</h2>
           <div className="space-y-4">
             <SocialCard
               title="#LeetCode"

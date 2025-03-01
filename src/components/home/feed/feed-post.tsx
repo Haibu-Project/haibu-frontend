@@ -1,6 +1,6 @@
 "use client";
 
-import { EllipsisVertical, MessageSquare, Heart, Repeat2, Share, Send, Trash2, Loader2 } from "lucide-react";
+import { EllipsisVertical, MessageSquare, Heart, Send, Trash2, Loader2 } from "lucide-react";
 import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Input } from "@/components/ui/input";

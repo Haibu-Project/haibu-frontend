@@ -11,7 +11,7 @@ export function useAuthCheck() {
   const [isRegistered, setIsRegistered] = useState<boolean | null>(null);
 
   useEffect(() => {
-    if (!address || isLoading) return;
+    if (!address || isLoading || !email) return;
 
     async function fetchRegistrationStatus() {
       const registered = await checkRegistration(email);
@@ -20,7 +20,7 @@ export function useAuthCheck() {
     }
 
     fetchRegistrationStatus();
-  }, [address, isLoading]);
+  }, [address, isLoading, email]);
 
   useEffect(() => {
     async function handleAuth() {

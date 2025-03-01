@@ -6,7 +6,7 @@ import { fetchPostsByUserId } from "@/api/post.api";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Calendar, Globe, MapPin, MessageCircle, Share2, Users } from "lucide-react";
+import { Calendar, Globe, MapPin, MessageCircle, Users } from "lucide-react";
 import ProfileHeader from "./header";
 import { useUserStore } from "@/store/user-store";
 

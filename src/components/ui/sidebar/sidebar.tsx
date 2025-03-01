@@ -3,7 +3,7 @@
 import { useState } from "react"
 import Link from "next/link"
 import { usePathname } from "next/navigation"
-import { Home, MessageSquare, Bell, Settings, Users, User } from "lucide-react"
+import { Home, MessageSquare, Settings, Users, User } from "lucide-react"
 import Image from "next/image"
 import CreatePostModal from "@/components/features/postModal/postModal"
 

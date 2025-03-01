@@ -5,5 +5,8 @@ export default async function FeedServer() {
   try {
     const posts = await fetchPosts();
     return <FeedClient posts={posts} />;
+  } catch (error) {
+    console.error("Error fetching posts:", error);
+    return null;
   }
 }
