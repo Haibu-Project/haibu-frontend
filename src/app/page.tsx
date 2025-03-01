@@ -1,7 +1,6 @@
 import FeedContainer from "@/components/features/feed/feed-charge";
 import { RightSidebar } from "@/components/home/feed/right-sidebar";
 import AuthGuard from "@/components/AuthGuard";
-import { MainNav } from "@/components/ui/sidebar/sidebar";
 
 export default function Page() {
   return (

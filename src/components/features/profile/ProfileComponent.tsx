@@ -1,12 +1,10 @@
 "use client";
 
-import { useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { fetchPostsByUserId } from "@/api/post.api";
-import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Calendar, Globe, MapPin, MessageCircle, Users } from "lucide-react";
+import {MessageCircle } from "lucide-react";
 import ProfileHeader from "./header";
 import { useUserStore } from "@/store/user-store";
 import { Post } from "@/types/post";
