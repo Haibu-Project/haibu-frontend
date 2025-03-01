@@ -78,7 +78,7 @@ const PostCard = ({ post }: { post: Post }) => {
     onSuccess: () => {
       queryClient.invalidateQueries({queryKey:["comments", post.id]});
       refetchComments();
-      setCommentText(""); // Limpia el input tras enviar un comentario
+      setCommentText(""); 
     },
   });
 

@@ -1,7 +1,6 @@
-import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
-import { MainNav } from "@/components/ui/sidebar/sidebar";
 import { Providers } from "./providers";
+import MainLayout from "./layout/MainLayout";
 import "./globals.css";
 import "animate.css";
 
@@ -15,7 +14,7 @@ const geistMono = Geist_Mono({
   subsets: ["latin"],
 });
 
-export const metadata: Metadata = {
+export const metadata = {
   title: "Haibu Project",
   description: "Haibu project",
 };
@@ -29,15 +28,7 @@ export default function RootLayout({
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
         <Providers>
-          <div className="flex min-h-screen w-full">
-            <aside className="hidden lg:block lg:w-72 xl:w-80 h-screen sticky top-0">
-              <MainNav />
-            </aside>
-
-            <main className="flex-1 flex flex-col h-screen overflow-hidden">
-              <div className="flex-1 overflow-y-auto">{children}</div>
-            </main>
-          </div>
+          <MainLayout>{children}</MainLayout>
         </Providers>
       </body>
     </html>

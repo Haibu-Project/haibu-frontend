@@ -1,12 +1,14 @@
 import FeedContainer from "@/components/features/feed/feed-charge";
 import { RightSidebar } from "@/components/home/feed/right-sidebar";
 import AuthGuard from "@/components/AuthGuard";
+import { MainNav } from "@/components/ui/sidebar/sidebar";
 
 export default function Page() {
   return (
     <AuthGuard>
       <div className="animate__animated animate__fadeInRight">
         <div className="flex min-h-screen w-full dark:bg-primary-dark">
+
           <main className="flex-1 border-x dark:border-accent/10 px-4 sm:px-8">
             <div className="max-w-2xl mx-auto py-8">
               <FeedContainer />
