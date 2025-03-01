@@ -1,13 +1,18 @@
 import { useState } from "react";
 import { useChat } from "@/hooks/useChat";
 
-export default function ChatWindow({ chatId, userId }) {
-  const { messages, sendMessage } = useChat(chatId, userId);
+interface ChatProps {
+  userId: string;
+  receiverId: string;
+}
+
+export default function Chat({ userId, receiverId }: ChatProps) {
+  const { messages, sendMessage } = useChat(userId);
   const [message, setMessage] = useState("");
 
   return (
     <div className="p-4 border rounded-md shadow-md">
-      <h2 className="text-lg font-semibold">Chat {chatId}</h2>
+      <h2 className="text-lg font-semibold">Chat</h2>
       <div className="h-64 overflow-y-auto border p-2 mb-4">
         {messages.map((msg, idx) => (
           <p key={idx} className={msg.senderId === userId ? "text-right text-blue-500" : "text-left text-gray-700"}>
@@ -25,7 +30,7 @@ export default function ChatWindow({ chatId, userId }) {
         />
         <button
           onClick={() => {
-            sendMessage(message);
+            sendMessage(receiverId, message);
             setMessage("");
           }}
           className="bg-blue-500 text-white px-4 py-2 rounded-r"

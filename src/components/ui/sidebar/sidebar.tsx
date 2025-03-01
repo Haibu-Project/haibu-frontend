@@ -12,7 +12,7 @@ const navItems = [
   { title: "Governance", icon: MessageSquare, href: "/governance" },
   { title: "Haika", icon: Users, href: "/haika" },
   { title: "Settings", icon: Settings, href: "/settings" },
-  { title: "Messages", icon: MessageSquare, href: "/chat" },
+  { title: "Messages", icon: MessageSquare, href: "/messages" },
   { title: "Profile", icon: User, href: "/profile" },
 ]
 
