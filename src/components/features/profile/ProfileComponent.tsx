@@ -1,12 +1,10 @@
 "use client";
 
-import { useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { fetchPostsByUserId } from "@/api/post.api";
-import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Calendar, Globe, MapPin, MessageCircle, Users } from "lucide-react";
+import {MessageCircle } from "lucide-react";
 import ProfileHeader from "./header";
 import { useUserStore } from "@/store/user-store";
 import { Post } from "@/types/post";
@@ -14,7 +12,6 @@ import { Post } from "@/types/post";
 export default function ProfileComponent() {
 
   const { id, username, name, surnames } = useUserStore();
-  const [isFollowing, setIsFollowing] = useState(false);
 
   const { data: posts, isLoading, isError } = useQuery({
     queryKey: ["posts", id],
@@ -35,45 +32,6 @@ export default function ProfileComponent() {
                 <h1 className="text-2xl font-bold"></h1>
                 <p className="text-gray-500 dark:text-gray-400">@{username}</p>
                 <p className="text-gray-500 dark:text-gray-400">{name} {surnames}</p>
-              </div>
-              <Button
-                onClick={() => setIsFollowing(!isFollowing)}
-                variant={isFollowing ? "outline" : "default"}
-                className={
-                  isFollowing ? "bg-gray-100 hover:bg-gray-200 dark:bg-gray-800" : "bg-tertiary text-primary-dark"
-                }
-              >
-                {isFollowing ? "Following" : "Follow"}
-              </Button>
-            </div>
-
-            <p className="mt-4 text-gray-600 dark:text-gray-300">
-              Building the future of AI and social connections. Passionate about technology and innovation.
-            </p>
-
-            <div className="flex flex-wrap gap-6 mt-4 text-gray-600 dark:text-gray-400">
-              <div className="flex items-center gap-2">
-                <MapPin className="h-4 w-4" />
-                <span>San Francisco, CA</span>
-              </div>
-              <div className="flex items-center gap-2">
-                <Globe className="h-4 w-4" />
-                <a href="#" className="text-tertiary hover:underline">website.com</a>
-              </div>
-              <div className="flex items-center gap-2">
-                <Calendar className="h-4 w-4" />
-                <span>Joined February 2024</span>
-              </div>
-            </div>
-
-            <div className="flex gap-6 mt-4">
-              <div className="flex items-center gap-2">
-                <Users className="h-4 w-4" />
-                <span><strong>2.5K</strong> Following</span>
-              </div>
-              <div className="flex items-center gap-2">
-                <Users className="h-4 w-4" />
-                <span><strong>10.2K</strong> Followers</span>
               </div>
             </div>
           </div>
