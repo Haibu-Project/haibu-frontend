@@ -16,13 +16,13 @@ interface Post {
   title: string;
   content: string;
   createdAt: string;
-  user: { id: string; username: string };
+  user: { id: string; username: string, image: string };
 }
 
 interface Comment {
   id: string;
   content: string;
-  user: { id: string; username: string };
+  user: { id: string; username: string, image: string };
 }
 
 const PostCard = ({ post }: { post: Post }) => {

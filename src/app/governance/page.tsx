@@ -1,6 +1,7 @@
 "use client"
 import GovernanceHeader from "@/components/features/governance/header";
 import CampaignCard from "@/components/features/governance/CampaignCard";
+import GamifiedExperienceCard from "@/components/features/governance/Preview";
 
 type Card = {
     id: string;
@@ -31,7 +32,7 @@ const cards: Card[] = [
     {
         id: '3',
         title: "Hai Token Reward System",
-        description: "A new gamified system where users can earn Hai tokens by completing daily challenges and engaging with the community.",
+        description: "A new gamified system where users can earn Hai tokens by completing daily challenges.",
         priority: 'High',
         date: "2025-04-30T00:00:00Z",
         completed: false
@@ -47,16 +48,15 @@ export default function GovernancePage() {
                     <GovernanceHeader />
                 </div>
 
-
                 <div className='flex flex-col gap-1'>
                     <h1 className="text-xl ml-[4.8rem] font-medium text-stellar-blue">
                         <span className="inline-block border-b-[0.1rem] border-[#f9a646]">
-                            <b>Hurry up and vote! These Hai campaigns are ending</b>
+                            <b>You can vote here when Token Distribution Campaign 1 ends.</b>
                         </span>
                     </h1>
                 </div>
 
-                <div className="flex justify-center items-center flex-wrap gap-x-6 gap-y-6 w-full max-w-6xl mx-auto">
+                <div className="flex mb-[2rem] justify-center items-center flex-wrap gap-x-6 gap-y-6 w-full max-w-6xl mx-auto">
                     {cards.map((card) => (
                         <CampaignCard
                             key={card.id}
@@ -69,6 +69,18 @@ export default function GovernancePage() {
                         />
                     ))}
                 </div>
+
+                <div className='flex flex-col gap-1'>
+                    <h1 className="text-xl ml-[4.8rem] font-medium text-stellar-blue">
+                        <span className="inline-block border-b-[0.1rem] border-[#f9a646]">
+                            <b>Haibu’s  Governance Token Distribution Campaign Beta! is LIVE.</b>
+                        </span>
+                    </h1>
+                </div>
+
+                <section className="flex flex-col w-full items-center">
+                    <GamifiedExperienceCard />
+                </section>
             </div>
         </>
     );
