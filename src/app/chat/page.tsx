@@ -73,7 +73,7 @@ export default function ChatPage() {
                   <div className="relative">
                     <Search className="absolute left-2 top-2.5 h-4 w-4 text-muted-foreground" />
                     <Input
-                      placeholder="Buscar usuario por nombre"
+                      placeholder="Search by username"
                       className="pl-8"
                       value={searchQuery}
                       onChange={(e) => handleSearch(e.target.value)}
@@ -97,9 +97,9 @@ export default function ChatPage() {
                       ))
                     ) : (
                       <div className="flex flex-col items-center justify-center h-full text-center p-4">
-                        <p className="text-muted-foreground mb-2">No se encontraron usuarios</p>
+                        <p className="text-muted-foreground mb-2">No users found</p>
                         {searchQuery && (
-                          <p className="text-sm text-muted-foreground">Intenta con otro término de búsqueda</p>
+                          <p className="text-sm text-muted-foreground">try other method</p>
                         )}
                       </div>
                     )}
@@ -228,7 +228,7 @@ export default function ChatPage() {
                       <Input
                         value={newMessage}
                         onChange={(e) => setNewMessage(e.target.value)}
-                        placeholder="Escribe un mensaje..."
+                        placeholder="type a HaiMessage"
                         className="flex-1"
                       />
                       <Button type="submit" disabled={!newMessage.trim()}>
