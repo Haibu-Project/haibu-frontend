@@ -62,12 +62,12 @@ export default function ChatPage() {
               <DialogTrigger asChild>
                 <Button className="gap-2">
                   <Plus size={16} />
-                  Crear Chat
+                  Create Chat
                 </Button>
               </DialogTrigger>
               <DialogContent className="sm:max-w-md">
                 <DialogHeader>
-                  <DialogTitle>Nuevo Chat</DialogTitle>
+                  <DialogTitle>New Chat</DialogTitle>
                 </DialogHeader>
                 <div className="space-y-4 py-4">
                   <div className="relative">
@@ -113,7 +113,7 @@ export default function ChatPage() {
                         setSearchQuery("")
                       }}
                     >
-                      Confirmar Chat
+                      Confirm Chat
                     </Button>
                   )}
                 </div>
@@ -141,7 +141,7 @@ export default function ChatPage() {
                           </Avatar>
                           <div>
                             <p className="font-medium">Chat {chat.id.substring(0, 8)}</p>
-                            <p className="text-xs text-muted-foreground truncate w-32">Último mensaje...</p>
+                            <p className="text-xs text-muted-foreground truncate w-32">Last message...</p>
                           </div>
                         </div>
                         <DropdownMenu>
@@ -159,7 +159,7 @@ export default function ChatPage() {
                               }}
                             >
                               <Trash2 className="mr-2 h-4 w-4" />
-                              Eliminar
+                              Eliminate
                             </DropdownMenuItem>
                           </DropdownMenuContent>
                         </DropdownMenu>
@@ -167,10 +167,10 @@ export default function ChatPage() {
                     ))
                   ) : (
                     <div className="flex flex-col items-center justify-center h-40 text-center p-4">
-                      <p className="text-muted-foreground mb-2">No hay chats disponibles</p>
+                      <p className="text-muted-foreground mb-2">No chats available</p>
                       <Button variant="outline" size="sm" onClick={() => setIsDialogOpen(true)}>
                         <Plus className="mr-2 h-4 w-4" />
-                        Crear nuevo chat
+                        Create new chat
                       </Button>
                     </div>
                   )}
@@ -187,7 +187,7 @@ export default function ChatPage() {
                     <div>
                       <p className="font-medium">Chat {activeChat.substring(0, 8)}</p>
                       <Badge variant="outline" className="text-xs">
-                        Activo
+                        Active
                       </Badge>
                     </div>
                   </div>
@@ -217,8 +217,8 @@ export default function ChatPage() {
                         ))
                       ) : (
                         <div className="flex flex-col items-center justify-center h-40 text-center">
-                          <p className="text-muted-foreground">No hay mensajes aún</p>
-                          <p className="text-sm text-muted-foreground">Envía el primer mensaje para comenzar</p>
+                          <p className="text-muted-foreground">No messages yet</p>
+                          <p className="text-sm text-muted-foreground">Send the first message to start</p>
                         </div>
                       )}
                     </div>
@@ -233,7 +233,7 @@ export default function ChatPage() {
                       />
                       <Button type="submit" disabled={!newMessage.trim()}>
                         <Send size={16} className="mr-2" />
-                        Enviar
+                        Send
                       </Button>
                     </form>
                   </CardFooter>
@@ -241,11 +241,11 @@ export default function ChatPage() {
               ) : (
                 <div className="flex flex-col items-center justify-center h-full text-center p-4">
                   <MessageSquare className="h-12 w-12 text-muted-foreground mb-4" />
-                  <h3 className="text-xl font-medium mb-2">Selecciona un chat</h3>
-                  <p className="text-muted-foreground mb-4">Elige un chat existente o crea uno nuevo para comenzar</p>
+                  <h3 className="text-xl font-medium mb-2">Select a chat</h3>
+                  <p className="text-muted-foreground mb-4">Select a chat or create one</p>
                   <Button onClick={() => setIsDialogOpen(true)}>
                     <Plus className="mr-2 h-4 w-4" />
-                    Crear nuevo chat
+                    Create new chat
                   </Button>
                 </div>
               )}
