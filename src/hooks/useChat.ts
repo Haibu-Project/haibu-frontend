@@ -5,7 +5,7 @@ const socket = io(process.env.NEXT_PUBLIC_WEBSOCKET_URL);
 
 interface Chat {
   id: string;
-  participants: { userId: string }[];
+  participants: any;
 }
 
 interface Message {
