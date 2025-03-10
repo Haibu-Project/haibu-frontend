@@ -4,6 +4,10 @@ Haibu is a **community-driven decentralized social network** built on **Celestia
 
 ---
 
+- Learn more about Haibu: https://www.haibusocial.com/
+- Haibu's main app: https://app.haibusocial.com/auth/register
+- Gamified Governance Token Campaign: https://click.haibusocial.com/
+
 ## 🌟 Key Features
 
 - **🗳️ DAO Governance:** Decision-making through $HAI token-based voting.
@@ -19,9 +23,7 @@ Haibu is a **community-driven decentralized social network** built on **Celestia
 - **Frontend:** Next.js (React, TailwindCSS, Chopin-Framework)
 ---
 
-## 🌐 Haibu Landing Page & Frontend
-
-The **Landing Page** of Haibu serves as the project's official introduction, showcasing its mission, vision, and key functionalities.
+## 🌐 Haibu Frontend
 
 The **Frontend** of Haibu is responsible for rendering the UI and managing user interactions.
 
