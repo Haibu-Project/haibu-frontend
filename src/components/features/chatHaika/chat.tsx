@@ -92,7 +92,7 @@ const Chat = () => {
                         <InfiniteBeeAllFrames height={300} width={300} />
                     </div>
                     <h1 className="text-2xl font-bold">I&apos;m Haika. How can I help you?</h1>
-                    <div className="flex items-center w-full max-w-md">
+                    <div className="mt-2 flex border rounded-xl px-4 items-center w-full max-w-md">
                         <input
                             value={message}
                             onChange={(e) => setMessage(e.target.value)}
@@ -101,7 +101,7 @@ const Chat = () => {
                             className="flex-1 mr-2 rounded p-4 text-lg"
                             style={{ height: '3rem' }}
                         />
-                        <Button onClick={sendMessage} className="bg-blue-500 text-white rounded">→</Button>
+                        <Button onClick={sendMessage} className="bg-[#4841C5] text-white rounded">→</Button>
                     </div>
                 </div>
             ) : (
