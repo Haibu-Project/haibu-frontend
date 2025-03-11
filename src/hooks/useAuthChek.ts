@@ -54,7 +54,10 @@ export function useAuthCheck() {
         surnames: loginData.user?.surnames,
         username: loginData.user?.username,
         email: loginData.user?.email,
+        image: loginData.user?.image,
+        description: loginData.user?.description,
         id: loginData.user?.id,
+
       });
     }
 

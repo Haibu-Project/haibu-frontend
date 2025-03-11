@@ -9,6 +9,8 @@ type UserState = {
   email: string;
   verificationCode: string;
   id: '';
+  image: string;
+  description: string;
   setUser: (user: Partial<UserState>) => void;
   setUserVerificationCode: (code: string) => void;
   clearUser: () => void;
@@ -22,6 +24,8 @@ export const useUserStore = create<UserState>()(
       username: '',
       email: '',
       verificationCode: '',
+      image: '',
+      description: '',
       id: '',
       setUser: (user) => set((state) => ({ ...state, ...user })),
       setUserVerificationCode: (code) => set({ verificationCode: code }),

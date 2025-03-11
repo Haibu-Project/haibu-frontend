@@ -1,77 +1,153 @@
-"use client";
+"use client"
 
-import { useQuery } from "@tanstack/react-query";
-import { fetchPostsByUserId } from "@/api/post.api";
-import { Card } from "@/components/ui/card";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import {MessageCircle } from "lucide-react";
-import ProfileHeader from "./header";
-import { useUserStore } from "@/store/user-store";
-import { Post } from "@/types/post";
+import { useQuery } from "@tanstack/react-query"
+import { fetchPostsByUserId } from "@/api/post.api"
+import { Card } from "@/components/ui/card"
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
+import { MessageCircle, Calendar, Heart, Share2 } from "lucide-react"
+import ProfileHeader from "./header"
+import { useUserStore } from "@/store/user-store"
+import type { Post } from "@/types/post"
+import { Skeleton } from "@/components/ui/skeleton"
+import { formatDistanceToNow } from "date-fns"
 
 export default function ProfileComponent() {
+  const { id, username, name, surnames, image, description } = useUserStore()
 
-  const { id, username, name, surnames } = useUserStore();
-
-  const { data: posts, isLoading, isError } = useQuery({
+  const {
+    data: posts,
+    isLoading,
+    isError,
+  } = useQuery({
     queryKey: ["posts", id],
     queryFn: () => fetchPostsByUserId(id),
     enabled: !!id,
-  });
+  })
 
   return (
-    <div className="max-w-4xl gap-8 flex flex-col items-center mx-auto p-4">
-      <ProfileHeader />
+    <div className="max-w-4xl mx-auto p-4 space-y-6">
+      <ProfileHeader image={image} description={description} name={`${name} ${surnames}`} username={username} />
 
-      <Card className="relative mx-4 p-6">
-        <div className="flex flex-col md:flex-row gap-6">
-          <div className="flex-shrink-0 -mt-20 md:-mt-24"></div>
-          <div className="flex-grow">
-            <div className="flex justify-between items-start">
-              <div>
-                <h1 className="text-2xl font-bold"></h1>
-                <p className="text-gray-500 dark:text-gray-400">@{username}</p>
-                <p className="text-gray-500 dark:text-gray-400">{name} {surnames}</p>
-              </div>
+      <Card className="shadow-sm border-gray-200 dark:border-gray-800 overflow-hidden">
+        <div className="p-6">
+          <div className="flex items-center gap-4 mb-4">
+            <div className="flex flex-col">
+              <span className="font-medium text-lg">{posts?.length || 0}</span>
+              <span className="text-sm text-gray-500 dark:text-gray-400">Posts</span>
+            </div>
+            <div className="w-px h-10 bg-gray-200 dark:bg-gray-700"></div>
+            <div className="flex flex-col">
+              <span className="font-medium text-lg">0</span>
+              <span className="text-sm text-gray-500 dark:text-gray-400">Followers</span>
+            </div>
+            <div className="w-px h-10 bg-gray-200 dark:bg-gray-700"></div>
+            <div className="flex flex-col">
+              <span className="font-medium text-lg">0</span>
+              <span className="text-sm text-gray-500 dark:text-gray-400">Following</span>
             </div>
           </div>
-        </div>
 
-        <Tabs defaultValue="posts" className="mt-6">
-          <TabsList className="w-full justify-start border-b rounded-none h-auto p-0 bg-transparent">
-            <TabsTrigger value="posts" className="rounded-none border-b-2 border-transparent data-[state=active]:border-tertiary data-[state=active]:bg-transparent">
-              Posts
-            </TabsTrigger>
-            <TabsTrigger value="replies" className="rounded-none border-b-2 border-transparent data-[state=active]:border-tertiary data-[state=active]:bg-transparent">
-              Replies
-            </TabsTrigger>
-          </TabsList>
+          <Tabs defaultValue="posts" className="w-full">
+            <TabsList className="w-full grid grid-cols-2 mb-6">
+              <TabsTrigger value="posts" className="data-[state=active]:bg-[#4461f2] data-[state=active]:text-white">
+                Posts
+              </TabsTrigger>
+              <TabsTrigger value="replies" className="data-[state=active]:bg-[#4461f2] data-[state=active]:text-white">
+                Replies
+              </TabsTrigger>
+            </TabsList>
 
-          <TabsContent value="posts" className="mt-6">
-            {isLoading ? (
-              <p className="text-gray-500 dark:text-gray-400">Loading posts...</p>
-            ) : isError ? (
-              <p className="text-red-500">Error fetching posts.</p>
-            ) : posts?.length > 0 ? (
-              <div className="flex flex-col gap-4">
-                {posts.map((post:Post) => (
-                  <Card key={post.id} className="p-4">
-                    <h2 className="text-xl font-bold">{post.title}</h2>
-                    <p className="text-gray-600 dark:text-gray-300 mt-2">{post.content}</p>
-                    <div className="flex items-center gap-2 mt-3 text-gray-500 dark:text-gray-400">
-                      <MessageCircle className="h-4 w-4" />
-                      <span>{post.comments?.length ?? 0} Comments</span>
-                    </div>
-                  </Card>
-                ))}
+            <TabsContent value="posts" className="space-y-4">
+              {isLoading ? (
+                Array(3)
+                  .fill(0)
+                  .map((_, i) => (
+                    <Card key={i} className="p-4">
+                      <Skeleton className="h-6 w-3/4 mb-2" />
+                      <Skeleton className="h-4 w-full mb-1" />
+                      <Skeleton className="h-4 w-5/6 mb-3" />
+                      <div className="flex gap-3">
+                        <Skeleton className="h-4 w-16" />
+                        <Skeleton className="h-4 w-16" />
+                      </div>
+                    </Card>
+                  ))
+              ) : isError ? (
+                <div className="text-center p-8">
+                  <div className="text-red-500 mb-2">Failed to load posts</div>
+                  <p className="text-gray-500 dark:text-gray-400">
+                    There was an error fetching your posts. Please try again later.
+                  </p>
+                </div>
+              ) : posts?.length > 0 ? (
+                <div className="space-y-4">
+                  {posts.map((post: Post) => (
+                    <Card key={post.id} className="overflow-hidden hover:shadow-md transition-shadow">
+                      <div className="p-5">
+                        <h2 className="text-xl font-bold mb-2 text-gray-800 dark:text-gray-100">{post.title}</h2>
+                        <p className="text-gray-600 dark:text-gray-300 mb-4">{post.content}</p>
+
+                        <div className="flex items-center justify-between text-sm">
+                          <div className="flex items-center gap-4">
+                            <button className="flex items-center gap-1 text-gray-500 hover:text-[#4461f2] transition-colors">
+                              <Heart className="h-4 w-4" />
+                              <span>0</span>
+                            </button>
+                            <button className="flex items-center gap-1 text-gray-500 hover:text-[#4461f2] transition-colors">
+                              <MessageCircle className="h-4 w-4" />
+                              <span>{post.comments?.length ?? 0}</span>
+                            </button>
+                            <button className="flex items-center gap-1 text-gray-500 hover:text-[#4461f2] transition-colors">
+                              <Share2 className="h-4 w-4" />
+                            </button>
+                          </div>
+
+                          <div className="flex items-center text-gray-500 dark:text-gray-400">
+                            <Calendar className="h-3 w-3 mr-1" />
+                            <span>
+                              {post.createdAt
+                                ? formatDistanceToNow(new Date(post.createdAt), { addSuffix: true })
+                                : "Recently"}
+                            </span>
+                          </div>
+                        </div>
+                      </div>
+                    </Card>
+                  ))}
+                </div>
+              ) : (
+                <div className="text-center p-10 bg-gray-50 dark:bg-gray-800/50 rounded-lg">
+                  <div className="text-gray-400 dark:text-gray-500 mb-2">
+                    <svg className="mx-auto h-12 w-12" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth={1.5}
+                        d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"
+                      />
+                    </svg>
+                  </div>
+                  <h3 className="text-lg font-medium text-gray-900 dark:text-gray-100">No posts yet</h3>
+                  <p className="mt-1 text-gray-500 dark:text-gray-400">
+                    Start creating content to see your posts here.
+                  </p>
+                </div>
+              )}
+            </TabsContent>
+
+            <TabsContent value="replies" className="p-6 text-center text-gray-500 dark:text-gray-400">
+              <div className="py-10">
+                <div className="mb-3">
+                  <MessageCircle className="h-10 w-10 mx-auto text-gray-300 dark:text-gray-600" />
+                </div>
+                <h3 className="text-lg font-medium text-gray-900 dark:text-gray-100">No replies yet</h3>
+                <p className="mt-1">When you reply to posts, they will appear here.</p>
               </div>
-            ) : (
-              <p className="text-gray-500 dark:text-gray-400">No posts yet.</p>
-            )}
-          </TabsContent>
-
-        </Tabs>
+            </TabsContent>
+          </Tabs>
+        </div>
       </Card>
     </div>
-  );
+  )
 }
+
