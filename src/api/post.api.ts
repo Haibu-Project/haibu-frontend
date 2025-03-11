@@ -63,15 +63,17 @@ export async function likePost(userId: string, postId: string) {
 
 export async function getPostLikes(postId: string) {
   const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/likes/${postId}`);
-  return response.json();
+  const result = await response.json();
+  return result.likes;
 }
 
 export async function unlikePost(userId: string, postId: string) {
-  await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/likes`, {
+  const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/likes`, {
       method: "DELETE",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ userId, postId })
   });
+  response.json();
 }
 
 
@@ -95,5 +97,15 @@ export async function deleteComment(commentId: string) {
   });
 }
 
+export async function getUserLikeOnPost(userId: string, postId: string) {
+  const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/likes/${userId}/${postId}`);
+
+  if (!response.ok) {
+    throw new Error("Error checking user like status");
+  }
+
+  const result = await response.json();
+  return result.liked; 
+}
 
 
