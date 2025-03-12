@@ -1,7 +1,14 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { EllipsisVertical, MessageSquare, Heart, Send, Trash2, Loader2 } from "lucide-react";
+import {
+  EllipsisVertical,
+  MessageSquare,
+  Heart,
+  Send,
+  Trash2,
+  Loader2,
+} from "lucide-react";
 import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Input } from "@/components/ui/input";
@@ -24,7 +31,7 @@ import {
   DropdownMenuContent,
   DropdownMenuItem,
 } from "@/components/ui/dropdown-menu";
-
+import Link from "next/link";
 interface Post {
   id: string;
   title: string;
@@ -54,8 +61,8 @@ const PostCard = ({ post }: { post: Post }) => {
   } = useQuery({
     queryKey: ["likes", post.id, userId],
     queryFn: async () => {
-      const totalLikes = await getPostLikes(post.id);         
-      const userHasLiked = await getUserLikeOnPost(userId, post.id); 
+      const totalLikes = await getPostLikes(post.id);
+      const userHasLiked = await getUserLikeOnPost(userId, post.id);
       return {
         likes: totalLikes ?? 0,
         userHasLiked: userHasLiked ?? false,
@@ -126,13 +133,14 @@ const PostCard = ({ post }: { post: Post }) => {
     },
   });
 
-  const { mutate: deleteCommentMutate, isPending: isDeletingComment } = useMutation({
-    mutationFn: async (commentId: string) => deleteComment(commentId),
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["comments", post.id] });
-      refetchComments();
-    },
-  });
+  const { mutate: deleteCommentMutate, isPending: isDeletingComment } =
+    useMutation({
+      mutationFn: async (commentId: string) => deleteComment(commentId),
+      onSuccess: () => {
+        queryClient.invalidateQueries({ queryKey: ["comments", post.id] });
+        refetchComments();
+      },
+    });
 
   const handleAddComment = () => {
     if (!commentText.trim()) return;
@@ -148,7 +156,11 @@ const PostCard = ({ post }: { post: Post }) => {
       ) : (
         <div className="p-5">
           <div className="flex items-center justify-between">
-            <h2 className="font-semibold text-[#4460F0] text-lg">@{post.user.username}</h2>
+            <Link href={`/u/${post.user.username}`}>
+              <h2 className="font-semibold text-[#4460F0] text-lg">
+                @{post.user.username}
+              </h2>
+            </Link>
 
             {userId === post.user.id && (
               <DropdownMenu>
@@ -158,7 +170,10 @@ const PostCard = ({ post }: { post: Post }) => {
                   </button>
                 </DropdownMenuTrigger>
                 <DropdownMenuContent align="end">
-                  <DropdownMenuItem onClick={() => deletePostMutate()} disabled={isDeletingPost}>
+                  <DropdownMenuItem
+                    onClick={() => deletePostMutate()}
+                    disabled={isDeletingPost}
+                  >
                     <Trash2 className="mr-2 h-4 w-4 text-red-500" />
                     {isDeletingPost ? "Deleting..." : "Delete Post"}
                   </DropdownMenuItem>
@@ -169,7 +184,9 @@ const PostCard = ({ post }: { post: Post }) => {
 
           <div className="space-y-2">
             <h3 className="text-xl font-bold">{post.title}</h3>
-            <p className="text-gray-800 dark:text-gray-300 leading-relaxed">{post.content}</p>
+            <p className="text-gray-800 dark:text-gray-300 leading-relaxed">
+              {post.content}
+            </p>
             <p className="text-sm text-gray-600 dark:text-gray-400">
               {new Date(post.createdAt).toLocaleString()}
             </p>
@@ -192,7 +209,7 @@ const PostCard = ({ post }: { post: Post }) => {
                 {isFetchingLikes ? (
                   <Loader2 className="animate-spin h-4 w-4" />
                 ) : (
-                  likeData?.likes ?? 0
+                  (likeData?.likes ?? 0)
                 )}
               </span>
             </button>
@@ -218,7 +235,9 @@ const PostCard = ({ post }: { post: Post }) => {
                       className="mb-2 border-b pb-2 flex justify-between items-center"
                     >
                       <div>
-                        <p className="font-bold text-sm text-[#4460F0]">@{comment.user.username}</p>
+                        <p className="font-bold text-sm text-[#4460F0]">
+                          @{comment.user.username}
+                        </p>
                         <p>{comment.content}</p>
                       </div>
                       {comment.user.id === userId && (
@@ -239,7 +258,11 @@ const PostCard = ({ post }: { post: Post }) => {
                     placeholder="Comment something..."
                     className="flex-1"
                   />
-                  <Button onClick={handleAddComment} disabled={isAddingComment} className="ml-2 bg-[#4460F0]">
+                  <Button
+                    onClick={handleAddComment}
+                    disabled={isAddingComment}
+                    className="ml-2 bg-[#4460F0]"
+                  >
                     {isAddingComment ? "..." : <Send color="white" size={16} />}
                   </Button>
                 </div>
