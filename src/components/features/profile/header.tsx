@@ -1,5 +1,5 @@
 import Image from "next/image"
-
+import ProfileEditModal from "./profile-modal"
 interface ProfileHeaderProps {
   image: string
   description: string
@@ -21,6 +21,8 @@ export default function ProfileHeader({ image, description, name, username }: Pr
           </pattern>
         </defs>
       </div>
+
+      <ProfileEditModal/>
 
       <div className="flex flex-col md:flex-row items-center p-6 md:p-8 gap-6">
         <div className="md:order-2 flex-shrink-0 relative">

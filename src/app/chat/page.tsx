@@ -53,9 +53,16 @@ export default function ChatPage() {
     fetchChats,
   } = useChat(userId);
 
-  const getOtherParticipant = (chat: any) => {
-    return chat?.participants?.find((p: any) => p.userId !== userId)?.user;
+  const getOtherParticipant = (
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    chat: any
+  ) => {
+    return chat?.participants?.find(
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      (p: any) => p.userId !== userId
+    )?.user;
   };
+  
 
   const currentChat = chats.find((chat) => chat.id === activeChat);
   const otherParticipantCurrentChat = getOtherParticipant(currentChat);
@@ -63,14 +70,17 @@ export default function ChatPage() {
   const [selectedUserId, setSelectedUserId] = useState<string | null>(null);
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
+  
 
   const handleConfirmChat = async () => {
     if (!selectedUserId) return;
     await createChat(selectedUserId);
     setIsDialogOpen(false);
     await fetchChats();
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const newChat = chats.find(
       (chat) =>
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         chat.participants.some((p: any) => p.userId === selectedUserId)
     );
     if (newChat) selectChat(newChat.id);
@@ -165,6 +175,8 @@ export default function ChatPage() {
                   {chats.length > 0 ? (
                     chats.map((chat) => {
                       const otherParticipant = getOtherParticipant(chat);
+                      console.log()
+
                       return (
                         <div
                           key={chat.id}
@@ -184,12 +196,12 @@ export default function ChatPage() {
                               </AvatarFallback>
                             </Avatar>
                             <div>
-                              <p className="font-medium text-white">
+                              <p className={`font-medium ${selectedUserId === otherParticipant ? 'text-white' :'text-black'}` }>
                                 {otherParticipant
                                   ? `Chat with ${otherParticipant.username}`
                                   : ""}
                               </p>
-                              <p className="text-xs text-white text-muted-foreground truncate w-32">
+                              <p className="text-xs text-black  text-muted-foreground truncate w-32">
                                 Last message...
                               </p>
                             </div>

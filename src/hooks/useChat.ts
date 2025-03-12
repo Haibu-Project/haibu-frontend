@@ -6,6 +6,7 @@ const socket = io(process.env.NEXT_PUBLIC_WEBSOCKET_URL);
 
 interface Chat {
   id: string;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   participants: any;
 }
 
@@ -52,6 +53,7 @@ export function useChat(userId: string) {
     return () => {
       socket.off("searchUsersResults");
     };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [userId]);
 
   const createChat = async (newChatUser: string, onSuccess?: () => void) => {

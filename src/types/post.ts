@@ -18,6 +18,7 @@ export interface Comment {
       username: string;
       image: string;
     };
+    likes?: number;
     comments?: Comment[]; 
   }
   
