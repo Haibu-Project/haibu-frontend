@@ -1,5 +1,4 @@
 "use client";
-
 import { useState } from "react";
 import { Card } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
@@ -11,14 +10,23 @@ import {
   Share2,
   UserPlus,
   Check,
-  Mail,
 } from "lucide-react";
 import { Skeleton } from "@/components/ui/skeleton";
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { formatDistanceToNow } from "date-fns";
-import type { Post } from "@/types/post";
-import type { User } from "@/types/user";
 import Image from "next/image";
 import { useUserStore } from "@/store/user-store";
+import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
+import type { Post } from "@/types/post";
+import type { User } from "@/types/user";
+
+import {
+  checkIfFollowing,
+  followUser,
+  unfollowUser,
+  getFollowers,
+  getFollowing,
+} from "@/api/follow.api";
 
 interface UserProfileViewProps {
   user: User;
@@ -33,19 +41,84 @@ export default function UserProfileView({
   isLoadingPosts,
   isErrorPosts,
 }: UserProfileViewProps) {
-  const [isFollowing, setIsFollowing] = useState(false);
+
+  const queryClient = useQueryClient();
   const currentUser = useUserStore();
   const isOwnProfile = currentUser.id === user.id;
 
-  const handleFollow = () => {
-    setIsFollowing(!isFollowing);
-  };
+  const { data: followersData, isLoading: isLoadingFollowers } = useQuery({
+    queryKey: ["followers", user.id],
+    queryFn: () => getFollowers(user.id),
+  });
+
+  const { data: followingData, isLoading: isLoadingFollowing } = useQuery({
+    queryKey: ["following", user.id],
+    queryFn: () => getFollowing(user.id),
+  });
+
+  const followersCount = followersData?.length ?? 0;
+  const followingCount = followingData?.length ?? 0;
+
+  const {
+    data: followStatusData,
+    isLoading: isLoadingFollowStatus,
+  } = useQuery({
+    queryKey: ["isFollowing", currentUser.id, user.id],
+    queryFn: () => checkIfFollowing(currentUser.id, user.id),
+    enabled: !!currentUser.id && !!user.id && currentUser.id !== user.id,
+  });
+
+  const isFollowing = followStatusData?.isFollowing ?? false;
+
+  const { mutate: followMutate, isPending: isFollowLoading } = useMutation({
+    mutationFn: () => followUser({ followerId: currentUser.id, followingId: user.id }),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["isFollowing", currentUser.id, user.id] });
+      queryClient.invalidateQueries({ queryKey: ["followers", user.id] });
+    },
+  });
+
+  const { mutate: unfollowMutate, isPending: isUnfollowLoading } = useMutation({
+    mutationFn: () => unfollowUser({ followerId: currentUser.id, followingId: user.id }),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["isFollowing", currentUser.id, user.id] });
+      queryClient.invalidateQueries({ queryKey: ["followers", user.id] });
+    },
+  });
+
+  function handleToggleFollow() {
+    if (isFollowing) {
+      unfollowMutate();
+    } else {
+      followMutate();
+    }
+  }
+
+  const [modalType, setModalType] = useState<"followers" | "following" | null>(null);
+
+
+  interface UserData {
+    id: string;
+    username: string;
+  }
+
+  interface FollowerData {
+    id: string;
+    createdAt: string;
+    follower: UserData; 
+  }
+
+  interface FollowingData {
+    id: string;
+    createdAt: string;
+    following: UserData; 
+  }
+
 
   return (
     <div className="max-w-4xl mx-auto p-4 space-y-6">
-      {/* Profile Header */}
+
       <header className="relative w-full overflow-hidden rounded-xl bg-gradient-to-r from-[#4461f2] to-[#6e85ff] shadow-lg">
-        {/* Background pattern */}
         <div className="absolute inset-0 opacity-10">
           <svg
             className="h-full w-full"
@@ -117,60 +190,60 @@ export default function UserProfileView({
         <div className="p-6">
           <div className="flex items-center justify-between mb-6">
             <div className="flex items-center gap-4">
-              <div className="flex flex-col">
-                <span className="font-medium text-lg">
-                  {posts?.length || 0}
-                </span>
-                <span className="text-sm text-gray-500 dark:text-gray-400">
-                  Posts
-                </span>
-              </div>
-              <div className="w-px h-10 bg-gray-200 dark:bg-gray-700"></div>
-              <div className="flex flex-col">
-                <span className="font-medium text-lg">
-                  {user.followers || 0}
-                </span>
-                <span className="text-sm text-gray-500 dark:text-gray-400">
-                  Followers
-                </span>
-              </div>
-              <div className="w-px h-10 bg-gray-200 dark:bg-gray-700"></div>
-              <div className="flex flex-col">
-                <span className="font-medium text-lg">
-                  {user.following || 0}
-                </span>
-                <span className="text-sm text-gray-500 dark:text-gray-400">
-                  Following
-                </span>
+              <div className="p-6">
+                <div className="flex items-center justify-between mb-6">
+                  <div className="flex items-center gap-4">
+                    <div className="flex flex-col">
+                      <span className="font-medium text-lg">{posts?.length || 0}</span>
+                      <span className="text-sm text-gray-500 dark:text-gray-400">Posts</span>
+                    </div>
+                    <div className="w-px h-10 bg-gray-200 dark:bg-gray-700"></div>
+                    <div className="flex flex-col cursor-pointer" onClick={() => setModalType("followers")}>
+                      <span className="font-medium text-lg">{isLoadingFollowers ? "..." : followersCount}</span>
+                      <span className="text-sm text-gray-500 dark:text-gray-400">Followers</span>
+                    </div>
+                    <div className="w-px h-10 bg-gray-200 dark:bg-gray-700"></div>
+                    <div className="flex flex-col cursor-pointer" onClick={() => setModalType("following")}>
+                      <span className="font-medium text-lg">{isLoadingFollowing ? "..." : followingCount}</span>
+                      <span className="text-sm text-gray-500 dark:text-gray-400">Following</span>
+                    </div>
+                  </div>
+
+                  <Dialog open={modalType !== null} onOpenChange={() => setModalType(null)}>
+                    <DialogContent>
+                      <DialogHeader>
+                        <DialogTitle>{modalType === "followers" ? "Followers" : "Following"}</DialogTitle>
+                      </DialogHeader>
+                      <div className="space-y-3">
+                        {(modalType === "followers"
+                          ? (followersData as FollowerData[])
+                          : (followingData as FollowingData[])
+                        )?.map((item) => (
+                          <div key={item.id} className="flex items-center gap-3 p-2 border-b">
+                            <div className="w-8 h-8 rounded-full bg-gray-300 flex items-center justify-center">
+                              <UserPlus className="w-4 h-4 text-gray-600" />
+                            </div>
+                            <span className="text-gray-900 dark:text-gray-100">
+                              {modalType === "followers" ? (item as FollowerData).follower?.username : (item as FollowingData).following?.username}
+                            </span>
+                          </div>
+                        ))}
+                      </div>
+                    </DialogContent>
+                  </Dialog>
+                </div>
               </div>
             </div>
 
             {!isOwnProfile && (
               <div className="flex gap-2">
                 <Button
-                  onClick={handleFollow}
+                  onClick={handleToggleFollow}
                   variant={isFollowing ? "outline" : "default"}
-                  className={
-                    isFollowing
-                      ? "border-[#4461f2] text-[#4461f2]"
-                      : "bg-[#4461f2]"
-                  }
+                  disabled={isLoadingFollowStatus || isFollowLoading || isUnfollowLoading}
+                  className={isFollowing ? "border-[#4461f2] text-[#4461f2]" : "bg-[#4461f2]"}
                 >
-                  {isFollowing ? (
-                    <>
-                      <Check className="h-4 w-4 mr-2" />
-                      Following
-                    </>
-                  ) : (
-                    <>
-                      <UserPlus className="h-4 w-4 mr-2" />
-                      Follow
-                    </>
-                  )}
-                </Button>
-                <Button variant="outline">
-                  <Mail className="h-4 w-4 mr-2" />
-                  Message
+                  {isLoadingFollowStatus ? "Loading..." : isFollowing ? <><Check className="h-4 w-4 mr-2" /> Following</> : <><UserPlus className="h-4 w-4 mr-2" /> Follow</>}
                 </Button>
               </div>
             )}
@@ -247,9 +320,9 @@ export default function UserProfileView({
                             <span>
                               {post.createdAt
                                 ? formatDistanceToNow(
-                                    new Date(post.createdAt),
-                                    { addSuffix: true }
-                                  )
+                                  new Date(post.createdAt),
+                                  { addSuffix: true }
+                                )
                                 : "Recientemente"}
                             </span>
                           </div>
@@ -279,8 +352,7 @@ export default function UserProfileView({
                     No posts
                   </h3>
                   <p className="mt-1 text-gray-500 dark:text-gray-400">
-                    {/* eslint-disable-next-line react/no-unescaped-entities */}
-                    This user hasn't published
+                    This user hasn&apos;t published
                   </p>
                 </div>
               )}
@@ -307,12 +379,10 @@ export default function UserProfileView({
                   </svg>
                 </div>
                 <h3 className="text-lg font-medium text-gray-900 dark:text-gray-100">
-                  {/* eslint-disable-next-line react/no-unescaped-entities */}
-                  There's no media.
+                  There&apos;s no media.
                 </h3>
                 <p className="mt-1">
-                  {/* eslint-disable-next-line react/no-unescaped-entities */}
-                  This user hasn't published any media.
+                  This user hasn&apos;t published any media.
                 </p>
               </div>
             </TabsContent>

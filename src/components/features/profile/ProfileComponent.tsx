@@ -1,28 +1,60 @@
 "use client"
 
+import { useState } from "react"
 import { useQuery } from "@tanstack/react-query"
 import { fetchPostsByUserId } from "@/api/post.api"
 import { Card } from "@/components/ui/card"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
-import { MessageCircle, Calendar, Heart, Share2 } from "lucide-react"
+import { MessageCircle, Calendar, Heart, Share2, UserPlus } from "lucide-react"
 import ProfileHeader from "./header"
 import { useUserStore } from "@/store/user-store"
 import type { Post } from "@/types/post"
 import { Skeleton } from "@/components/ui/skeleton"
 import { formatDistanceToNow } from "date-fns"
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog"
+import { getFollowers, getFollowing } from "@/api/follow.api"
 
 export default function ProfileComponent() {
   const { id, username, name, surnames, image, description } = useUserStore()
 
-  const {
-    data: posts,
-    isLoading,
-    isError,
-  } = useQuery({
+  const [modalType, setModalType] = useState<"followers" | "following" | null>(null)
+
+  const { data: posts, isLoading, isError } = useQuery({
     queryKey: ["posts", id],
     queryFn: () => fetchPostsByUserId(id),
     enabled: !!id,
   })
+
+  const { data: followersData, isLoading: isLoadingFollowers } = useQuery({
+    queryKey: ["followers", id],
+    queryFn: () => getFollowers(id),
+  })
+
+  const { data: followingData, isLoading: isLoadingFollowing } = useQuery({
+    queryKey: ["following", id],
+    queryFn: () => getFollowing(id),
+  })
+
+  const followersCount = followersData?.length ?? 0
+  const followingCount = followingData?.length ?? 0
+
+  interface UserData {
+    id: string;
+    username: string;
+  }
+
+  interface FollowerData {
+    id: string;
+    createdAt: string;
+    follower: UserData; 
+  }
+
+  interface FollowingData {
+    id: string;
+    createdAt: string;
+    following: UserData; 
+  }
+
 
   return (
     <div className="max-w-4xl mx-auto p-4 space-y-6">
@@ -36,16 +68,40 @@ export default function ProfileComponent() {
               <span className="text-sm text-gray-500 dark:text-gray-400">Posts</span>
             </div>
             <div className="w-px h-10 bg-gray-200 dark:bg-gray-700"></div>
-            <div className="flex flex-col">
-              <span className="font-medium text-lg">0</span>
+            <div className="flex flex-col cursor-pointer" onClick={() => setModalType("followers")}>
+              <span className="font-medium text-lg">{isLoadingFollowers ? "..." : followersCount}</span>
               <span className="text-sm text-gray-500 dark:text-gray-400">Followers</span>
             </div>
             <div className="w-px h-10 bg-gray-200 dark:bg-gray-700"></div>
-            <div className="flex flex-col">
-              <span className="font-medium text-lg">0</span>
+            <div className="flex flex-col cursor-pointer" onClick={() => setModalType("following")}>
+              <span className="font-medium text-lg">{isLoadingFollowing ? "..." : followingCount}</span>
               <span className="text-sm text-gray-500 dark:text-gray-400">Following</span>
             </div>
           </div>
+
+
+          <Dialog open={modalType !== null} onOpenChange={() => setModalType(null)}>
+            <DialogContent>
+              <DialogHeader>
+                <DialogTitle>{modalType === "followers" ? "Followers" : "Following"}</DialogTitle>
+              </DialogHeader>
+              <div className="space-y-3">
+                {(modalType === "followers"
+                  ? (followersData as FollowerData[])
+                  : (followingData as FollowingData[])
+                )?.map((item) => (
+                  <div key={item.id} className="flex items-center gap-3 p-2 border-b">
+                    <div className="w-8 h-8 rounded-full bg-gray-300 flex items-center justify-center">
+                      <UserPlus className="w-4 h-4 text-gray-600" />
+                    </div>
+                    <span className="text-gray-900 dark:text-gray-100">
+                      {modalType === "followers" ? (item as FollowerData).follower?.username : (item as FollowingData).following?.username}
+                    </span>
+                  </div>
+                ))}
+              </div>
+            </DialogContent>
+          </Dialog>
 
           <Tabs defaultValue="posts" className="w-full">
             <TabsList className="w-full grid grid-cols-2 mb-6">
@@ -150,4 +206,3 @@ export default function ProfileComponent() {
     </div>
   )
 }
-
