@@ -149,7 +149,7 @@ export default function UserProfileView({
             <div className="h-28 w-28 md:h-36 md:w-36 rounded-full border-4 border-white shadow-md overflow-hidden bg-white">
               {user.image ? (
                 <Image
-                  src={user.image || "/icons/profile2.svg"}
+                  src={user.image}
                   width={160}
                   height={160}
                   alt={""}

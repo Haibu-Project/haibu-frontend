@@ -4,11 +4,12 @@ import * as Dialog from "@radix-ui/react-dialog"
 import { useState } from "react"
 import { useMutation, useQueryClient } from "@tanstack/react-query"
 import { createPost } from "@/api/post.api"
-import {  X } from "lucide-react"
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
+import { X } from "lucide-react"
 import { Separator } from "@/components/ui/separator"
 import { Button } from "@/components/ui/button"
 import { useUserStore } from "@/store/user-store"
+import Image from "next/image"
+import { UserIcon } from "lucide-react"
 
 interface Props {
   isOpen: boolean
@@ -16,7 +17,7 @@ interface Props {
 }
 
 export default function CreatePostModal({ isOpen, onClose }: Props) {
-  const { id:userId } = useUserStore()
+  const { id: userId, image } = useUserStore()
   const [title, setTitle] = useState("")
   const [content, setContent] = useState("")
   const [error, setError] = useState("")
@@ -27,7 +28,7 @@ export default function CreatePostModal({ isOpen, onClose }: Props) {
   const { mutate, isPending } = useMutation({
     mutationFn: createPost,
     onSuccess: () => {
-      queryClient.invalidateQueries({queryKey: ["posts"]})
+      queryClient.invalidateQueries({ queryKey: ["posts"] })
       setTitle("")
       setContent("")
       onClose()
@@ -53,10 +54,21 @@ export default function CreatePostModal({ isOpen, onClose }: Props) {
 
           <div className="px-4 pb-2">
             <div className="flex gap-3">
-              <Avatar className="h-10 w-10">
-                <AvatarImage src="/placeholder.svg?height=40&width=40" alt="Profile" />
-                <AvatarFallback>U</AvatarFallback>
-              </Avatar>
+
+              {image ? (
+                <Image
+                  src={image}
+                  width={40}
+                  height={40}
+                  alt={"User Image"}
+                  className="object-cover w- h-full rounded-full"
+                />
+              ) : (
+                <div className="w-[35px] h-[35px] bg-gray-200 flex rounded-full p-1 items-center justify-center text-gray-400">
+                  <UserIcon color="#4460F0" />
+                </div>
+              )}
+
 
               <div className="flex-1">
                 <input
@@ -72,7 +84,7 @@ export default function CreatePostModal({ isOpen, onClose }: Props) {
                   rows={4}
                   value={content}
                   onChange={(e) => setContent(e.target.value)}
-                  placeholder="¿What are you thinking?"
+                  placeholder="What are you thinking?"
                   maxLength={MAX_CONTENT_CHARS}
                 />
               </div>
@@ -84,7 +96,7 @@ export default function CreatePostModal({ isOpen, onClose }: Props) {
           <div className="flex items-center justify-between p-4">
 
             <Button
-              className="rounded-full bg-twitter px-4 py-1 font-bold bg-black text-white hover:bg-twitter/90 disabled:opacity-50"
+              className="rounded-full px-4 py-1 font-bold bg-[#222064] text-white"
               onClick={() => mutate({ title, content, userId })}
               disabled={isPending || !title.trim() || !content.trim()}
             >

@@ -168,7 +168,7 @@ const PostCard = ({ post }: { post: Post }) => {
                   className="object-cover w- h-full rounded-full"
                 />
               ) : (
-                <div className="w-full h-full bg-gray-200 flex rounded-full p-1 items-center justify-center text-gray-400">
+                <div className="w-[35px] h-[35px] bg-gray-200 flex rounded-full p-1 items-center justify-center text-gray-400">
                   <UserIcon color="#4460F0" />
                 </div>
               )}

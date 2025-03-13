@@ -3,7 +3,7 @@ import { Geist, Geist_Mono } from "next/font/google";
 import { Providers } from "./providers";
 import "./globals.css";
 import "animate.css";
-import LayoutLogic from "./LayoutLogic"; 
+import LayoutLogic from "./LayoutLogic";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -16,8 +16,8 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Haibu Project",
-  description: "Haibu project",
+  title: "Haibu Social",
+  description: "Haibu main app",
 };
 
 export default function RootLayout({
@@ -30,6 +30,9 @@ export default function RootLayout({
       >
         <Providers>
           <LayoutLogic>
+            <head>
+              <link rel="icon" href="/icons/haibu-imagotipo.svg" sizes="any" />
+            </head>
             <main className="flex-1 flex flex-col h-screen overflow-hidden">
               <div className="flex-1 overflow-y-auto">{children}</div>
             </main>
