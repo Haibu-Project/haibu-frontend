@@ -16,6 +16,8 @@ import { Pencil, Upload, X, Camera } from "lucide-react"
 import { useUserStore } from "@/store/user-store"
 import { updateUserProfile } from "@/api/users.api"
 import Image from "next/image"
+import { resizeProfileImage } from "@/utils/resize"
+
 
 export default function ProfileEditModal() {
   const [open, setOpen] = useState(false)
@@ -68,6 +70,27 @@ export default function ProfileEditModal() {
   async function onSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
     try {
+      if (formData.image.startsWith("data:image")) {
+        const response = await fetch(formData.image);
+        const blob = await response.blob();
+        const file = new File([blob], "profile.jpg", { type: "image/jpeg" });
+      
+        const resizedFile = await resizeProfileImage(file);
+        console.log(resizedFile)
+        const reader = new FileReader();
+        reader.readAsDataURL(resizedFile);
+        reader.onloadend = async () => {
+          formData.image = reader.result as string;
+          await updateUserProfile(id, formData);
+          setUser(formData);
+          setOpen(false);
+        };
+      } else {
+        await updateUserProfile(id, formData);
+        setUser(formData);
+        setOpen(false);
+      }
+      
       await updateUserProfile(id, formData);
       setUser(formData);
       setOpen(false);
