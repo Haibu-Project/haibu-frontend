@@ -158,14 +158,14 @@ const PostCard = ({ post }: { post: Post }) => {
       ) : (
         <div className="p-5">
           <div className="flex items-center justify-between">
-            <Link className="flex gap-2 mb-4 items-center" href={`/u/${post.user.username}`}>
+            <Link className="flex gap-1 mb-4 items-center" href={`/u/${post.user.username}`}>
               {post.user.image ? (
                 <Image
                   src={post.user.image}
-                  width={160}
-                  height={160}
+                  width={40}
+                  height={40}
                   alt={"User Image"}
-                  className="object-cover w-full h-full rounded-full"
+                  className="object-cover w- h-full rounded-full"
                 />
               ) : (
                 <div className="w-full h-full bg-gray-200 flex rounded-full p-1 items-center justify-center text-gray-400">
@@ -249,9 +249,24 @@ const PostCard = ({ post }: { post: Post }) => {
                       className="mb-2 border-b pb-2 flex justify-between items-center"
                     >
                       <div>
-                        <p className="font-bold text-sm text-[#4460F0]">
-                          @{comment.user.username}
-                        </p>
+                        <Link className="flex gap-2 mb-2  items-center" href={`/u/${comment.user.username}`}>
+                          {comment.user.image ? (
+                            <Image
+                              src={comment.user.image}
+                              width={30}
+                              height={30}
+                              alt={"User Image"}
+                              className="object-cover rounded-full"
+                            />
+                          ) : (
+                            <div className="w-[30px] h-[30px] bg-gray-200 flex rounded-full p-1 items-center justify-center text-gray-400">
+                              <UserIcon color="#4460F0" />
+                            </div>
+                          )}
+                          <h2 className="font-semibold text-[#4460F0] text-lg">
+                            @{comment.user.username}
+                          </h2>
+                        </Link>
                         <p>{comment.content}</p>
                       </div>
                       {comment.user.id === userId && (
