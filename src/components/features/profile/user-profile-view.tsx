@@ -4,10 +4,7 @@ import { Card } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Button } from "@/components/ui/button";
 import {
-  MessageCircle,
   Calendar,
-  Heart,
-  Share2,
   UserPlus,
   Check,
 } from "lucide-react";
@@ -149,7 +146,7 @@ export default function UserProfileView({
             <div className="h-28 w-28 md:h-36 md:w-36 rounded-full border-4 border-white shadow-md overflow-hidden bg-white">
               {user.image ? (
                 <Image
-                  src={user.image}
+                  src={user.image || "/icons/profile2.svg"}
                   width={160}
                   height={160}
                   alt={""}
@@ -301,19 +298,6 @@ export default function UserProfileView({
                         </p>
 
                         <div className="flex items-center justify-between text-sm">
-                          <div className="flex items-center gap-4">
-                            <button className="flex items-center gap-1 text-gray-500 hover:text-[#4461f2] transition-colors">
-                              <Heart className="h-4 w-4" />
-                              <span>{post.likes || 0}</span>
-                            </button>
-                            <button className="flex items-center gap-1 text-gray-500 hover:text-[#4461f2] transition-colors">
-                              <MessageCircle className="h-4 w-4" />
-                              <span>{post.comments?.length ?? 0}</span>
-                            </button>
-                            <button className="flex items-center gap-1 text-gray-500 hover:text-[#4461f2] transition-colors">
-                              <Share2 className="h-4 w-4" />
-                            </button>
-                          </div>
 
                           <div className="flex items-center text-gray-500 dark:text-gray-400">
                             <Calendar className="h-3 w-3 mr-1" />

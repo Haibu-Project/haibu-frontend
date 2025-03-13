@@ -144,19 +144,6 @@ export default function ProfileComponent() {
                         <p className="text-gray-600 dark:text-gray-300 mb-4">{post.content}</p>
 
                         <div className="flex items-center justify-between text-sm">
-                          <div className="flex items-center gap-4">
-                            <button className="flex items-center gap-1 text-gray-500 hover:text-[#4461f2] transition-colors">
-                              <Heart className="h-4 w-4" />
-                              <span>0</span>
-                            </button>
-                            <button className="flex items-center gap-1 text-gray-500 hover:text-[#4461f2] transition-colors">
-                              <MessageCircle className="h-4 w-4" />
-                              <span>{post.comments?.length ?? 0}</span>
-                            </button>
-                            <button className="flex items-center gap-1 text-gray-500 hover:text-[#4461f2] transition-colors">
-                              <Share2 className="h-4 w-4" />
-                            </button>
-                          </div>
 
                           <div className="flex items-center text-gray-500 dark:text-gray-400">
                             <Calendar className="h-3 w-3 mr-1" />

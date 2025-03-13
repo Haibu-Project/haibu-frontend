@@ -47,7 +47,7 @@ export function RightSidebar() {
 
       <div className="bg-accent/10 dark:bg-primary rounded-xl p-4">
         <h2 className="text-xl font-bold mb-4 text-primary-dark dark:text-white flex items-center">
-          <Users className="mr-2 h-5 w-5 text-tertiary" /> Who to follow
+          <Users className="mr-2 h-5 w-5 text-tertiary" /> Meet Users
         </h2>
         <div className="space-y-4">
           {peopleToFollow.map((person) => (
@@ -74,9 +74,6 @@ export function RightSidebar() {
                   </p>
                 </div>
               </div>
-              <button className="bg-tertiary text-primary-dark rounded-full px-4 py-1 text-sm font-bold hover:bg-tertiary-light transition-colors">
-                Follow
-              </button>
             </div>
           ))}
         </div>
