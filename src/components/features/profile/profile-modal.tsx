@@ -19,12 +19,12 @@ import Image from "next/image"
 
 export default function ProfileEditModal() {
   const [open, setOpen] = useState(false)
-  const { id, name, surnames, image, setUser } = useUserStore()
+  const { id, name, surnames, image, description, setUser } = useUserStore()
   const [formData, setFormData] = useState({
     name: name || "",
     surnames: surnames || "",
     image: image || "",
-    description: "",
+    description: description || "",
   })
   const [imagePreview, setImagePreview] = useState(image || "")
   const fileInputRef = useRef<HTMLInputElement | null>(null);

@@ -49,7 +49,7 @@ export async function fetchPost(id: string) {
   if (!response.ok) {
     throw new Error("Error fetching post")
   }
-  return response.json()
+  return response.json();  
 }
 
 export async function likePost(userId: string, postId: string) {
